@@ -18,6 +18,7 @@
 
   <!-- Custom styles for this template-->
   <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 </head>
 
@@ -617,11 +618,34 @@
                 <div class="card-header py-3">
                   <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
                 </div>
-                <div class="card-body">
-                  <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-                </div>
+                    <div id = "chart"></div>
+                     <script>
+
+                        function getData(){
+                        return Math.random();
+                         }
+
+                         Plotly.plot('chart',[{
+                             y:[getData()],
+                             type:'line'
+                         }]);
+
+            var cnt = 0;
+            setInterval(function(){
+                Plotly.extendTraces('chart',{ y:[[getData()]]}, [0]);
+                cnt++;
+                if(cnt > 200) {
+                    Plotly.relayout('chart',{
+                        xaxis: {
+                            range: [cnt-100,cnt]
+                        }
+                    });
+                }
+            },15);
+
+                     </script>
               </div>
+
 
             </div>
           </div>
@@ -672,21 +696,6 @@
     </div>
   </div>
 
-  <div class = "wrapper">
-      <div id = "chart"></div>
-      <script>
-
-          function getData(){
-              return Math.random();
-          }
-
-          Plotly.plot('chart',[{
-              y:[getData()],
-              type:'line'
-          }]);
-
-      </script>
-  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="{%  static 'vendor/jquery/jquery.min.js' %}"></script>
