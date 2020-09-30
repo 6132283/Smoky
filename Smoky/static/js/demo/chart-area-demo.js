@@ -27,6 +27,23 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
+
+function addData(chart, label, data0, data1, data2) {
+    chart.data.labels.push(label);
+    chart.data.datasets[0].data.push(data0);
+    chart.data.datasets[1].data.push(data1);
+    chart.data.datasets[2].data.push(data2);
+    chart.update();
+}
+
+function removeData(chart) {
+    chart.data.labels.shift();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.shift();
+    });
+    chart.update();
+}
+
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
@@ -34,11 +51,26 @@ var myLineChart = new Chart(ctx, {
   data: {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [{
-      label: "Earnings",
+      label: "Smoke",
       lineTension: 0.3,
-      backgroundColor: "rgba(78, 115, 223, 0.05)",
-      borderColor: "rgba(78, 115, 223, 1)",
+      backgroundColor: "rgba(255, 24, 25, 0.05)",
+      borderColor: "rgba(255, 24, 25, 1)",
       pointRadius: 3,
+      pointBackgroundColor: "rgba(255, 24, 25, 1)",
+      pointBorderColor: "rgba(255, 24, 25, 1)",
+      pointHoverRadius: 3,
+      pointHoverBackgroundColor: "rgba(255, 24, 25, 1)",
+      pointHoverBorderColor: "rgba(255, 24, 25, 1)",
+      pointHitRadius: 10,
+      pointBorderWidth: 2,
+      data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+    },
+      {
+      label: "Gpl",
+      lineTension: 0.3,
+      backgroundColor: "rgba(100, 115, 223, 0.05)",
+      borderColor: "rgba(100, 115, 223, 1)",
+      pointRadius: 2,
       pointBackgroundColor: "rgba(78, 115, 223, 1)",
       pointBorderColor: "rgba(78, 115, 223, 1)",
       pointHoverRadius: 3,
@@ -46,7 +78,22 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+      data: [0, 5000, 10000, 6000, 8000, 4000, 20000, 30000, 10000, 3000, 2500, 4000],
+    },
+      {
+      label: "CO",
+      lineTension: 0.3,
+      backgroundColor: "rgba(255, 165, 0, 0.05)",
+      borderColor: "rgba(255, 165, 0, 1)",
+      pointRadius: 2,
+      pointBackgroundColor: "rgba(255, 165, 0, 1)",
+      pointBorderColor: "rgba(255, 165, 0, 1)",
+      pointHoverRadius: 3,
+      pointHoverBackgroundColor: "rgba(255, 165, 0, 1)",
+      pointHoverBorderColor: "rgba(255, 165, 0, 1)",
+      pointHitRadius: 10,
+      pointBorderWidth: 2,
+      data: [0, 3000, 7000, 10000, 800, 40000, 10000, 5000, 7000, 800, 25000, 7000],
     }],
   },
   options: {

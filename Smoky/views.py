@@ -10,3 +10,17 @@ def index(request):
         'Smoky/hello_world.html',
 
     )
+
+def charts(request):
+    return render(
+        request,
+        'otherpages/charts.html',
+
+    )
+
+def tables(request):
+    return render(
+        request,
+        'otherpages/tables.html',
+
+    )
