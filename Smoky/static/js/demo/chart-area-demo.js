@@ -44,6 +44,24 @@ function removeData(chart) {
     chart.update();
 }
 
+function askServer(){
+  $.ajax({
+  method: 'GET',
+  url: 'https://smoky2.000webhostapp.com/prova.php',
+  dataType: 'json', //change the datatype to 'jsonp' works in most cases
+  success: (res) => {
+   console.log(res);
+  }
+});}
+
+  function ready() {
+    alert('DOM is ready');
+  }
+
+
+
+
+
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {

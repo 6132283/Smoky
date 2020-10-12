@@ -24,3 +24,10 @@ def tables(request):
         'otherpages/tables.html',
 
     )
+
+def connessionephp(request):
+    return render(
+        request,
+        'otherpages/data.php',
+
+    )

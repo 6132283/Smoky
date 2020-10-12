@@ -19,6 +19,7 @@
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 
+
 </head>
 
 <body id="page-top">
@@ -644,6 +645,18 @@
                                                                                                       href="https://undraw.co/">unDraw</a>,
                                     a constantly updated collection of beautiful svg images that you can use completely
                                     free and without attribution!</p>
+                                <!-- Inizio prova database -->
+                                <table>
+                                     <tr>
+                                         <th>First name</th>
+                                         <th>Last name</th>
+                                         <th>Job title</th>
+                                     </tr>
+
+                                    <tbody id="data"></tbody>
+                                </table>
+                                <!-- Fine Prova database -->
+
                                 <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
                                     unDraw &rarr;</a>
                             </div>
@@ -710,7 +723,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" href=" login.html">Logout</a>
             </div>
         </div>
     </div>
@@ -733,6 +746,15 @@
 <!-- Page level custom scripts -->
 <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
 <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
+
+<!-- Prova di richiesta al server-->
+
+<script type="text/javascript">
+
+askServer();
+
+
+</script>
 
 </body>
 
