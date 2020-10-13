@@ -47,10 +47,10 @@ function removeData(chart) {
 function askServer(){
   $.ajax({
   method: 'GET',
-  url: 'https://smoky2.000webhostapp.com/prova.php',
+  url: 'https://smoky2.000webhostapp.com/sensore_ricca.php',
   dataType: 'json', //change the datatype to 'jsonp' works in most cases
   success: (res) => {
-   console.log(res);
+   console.log(res.ID);
   }
 });}
 
