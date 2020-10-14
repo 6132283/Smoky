@@ -6,5 +6,6 @@ urlpatterns = [
     path('',views.index, name="home"),
     path('charts',views.charts, name="charts"),
     path('tables',views.tables, name="tables"),
-    path('connessionephp', views.connessionephp, name="connessionephp"),
+    path('buttons',views.buttons, name="buttons"),
+
 ]

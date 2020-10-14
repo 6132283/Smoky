@@ -7,7 +7,7 @@ from django.shortcuts import render
 def index(request):
     return render(
         request,
-        'Smoky/hello_world.html',
+        'Smoky/index.html',
 
     )
 
@@ -25,9 +25,10 @@ def tables(request):
 
     )
 
-def connessionephp(request):
+def buttons(request):
     return render(
         request,
-        'otherpages/data.php',
-
+        'otherpages/buttons.html',
     )
+
+

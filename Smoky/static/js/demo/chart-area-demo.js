@@ -2,6 +2,9 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
+var num_of_graph_points = 0;
+var id_lastread=0;
+
 function number_format(number, decimals, dec_point, thousands_sep) {
   // *     example: number_format(1234.56, 2, ',', ' ');
   // *     return: '1 234,56'
@@ -28,38 +31,81 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 
-function addData(chart, label, data0, data1, data2) {
-    chart.data.labels.push(label);
-    chart.data.datasets[0].data.push(data0);
-    chart.data.datasets[1].data.push(data1);
-    chart.data.datasets[2].data.push(data2);
-    chart.update();
+function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new) {
+
+
+
+    if(id_new > localStorage.getItem("last_id_displayed")) {
+
+        chart.data.labels.push(date_new.slice(11,19));
+        chart.data.datasets[0].data.push(co_new);
+        chart.data.datasets[1].data.push(smoke_new);
+        chart.data.datasets[2].data.push(lpg_new);
+
+
+              if (num_of_graph_points > 8){
+                  chart.data.labels.shift();
+                  chart.data.datasets.forEach((dataset) => {
+                  dataset.data.shift();})
+              }
+
+              else
+                {num_of_graph_points++;}
+
+  chart.update();
+}
 }
 
-function removeData(chart) {
-    chart.data.labels.shift();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.shift();
-    });
-    chart.update();
-}
 
-function askServer(){
+function askServer(chart){
+
   $.ajax({
   method: 'GET',
-  url: 'https://smoky2.000webhostapp.com/sensore_ricca.php',
+  url: 'https://smoky2.000webhostapp.com/sensore_ale_getlastdata.php',
   dataType: 'json', //change the datatype to 'jsonp' works in most cases
-  success: (res) => {
-   console.log(res.ID);
-  }
-});}
 
-  function ready() {
+  success: (res) => {
+    addData(chart, res[0].ID, res[0].co2, res[0].smoke, res[0].gas, res[0].date);
+    id_lastread = res[0].ID;
+    localStorage.setItem("last_id_displayed",res[0].ID);
+    console.log(localStorage.getItem("last_id_displayed"));
+
+  }
+
+});
+}
+
+function ready() {
     alert('DOM is ready');
   }
 
+function prettyDate2(time){
+  var date = new Date(parseInt(time));
+  var localeSpecificTime = date.toLocaleTimeString();
+  return localeSpecificTimel;
+}
+
+function writeStaticVariables(variable,variablename){
+
+  localStorage.setItem(variablename, variable);
+
+}
 
 
+
+function readStaticVariables(variablename){
+
+
+  var stringa = localStorage.getItem(variablename);
+  return stringa;
+
+}
+
+
+document.addEventListener('DOMContentLoaded', function(){
+  writeStaticVariables(0, "n_points_in_graph");
+
+})
 
 
 // Area Chart Example
@@ -67,7 +113,7 @@ var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    labels: [],
     datasets: [{
       label: "Smoke",
       lineTension: 0.3,
@@ -81,7 +127,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(255, 24, 25, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+      data: [],
     },
       {
       label: "Gpl",
@@ -96,7 +142,7 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 5000, 10000, 6000, 8000, 4000, 20000, 30000, 10000, 3000, 2500, 4000],
+      data: [],
     },
       {
       label: "CO",
@@ -111,11 +157,11 @@ var myLineChart = new Chart(ctx, {
       pointHoverBorderColor: "rgba(255, 165, 0, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 3000, 7000, 10000, 800, 40000, 10000, 5000, 7000, 800, 25000, 7000],
+      data: [],
     }],
   },
   options: {
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     layout: {
       padding: {
         left: 10,
@@ -127,7 +173,7 @@ var myLineChart = new Chart(ctx, {
     scales: {
       xAxes: [{
         time: {
-          unit: 'date'
+          unit: 'time'
         },
         gridLines: {
           display: false,
@@ -135,7 +181,11 @@ var myLineChart = new Chart(ctx, {
         },
         ticks: {
           maxTicksLimit: 7
-        }
+        },
+        scaleLabel: {
+        display: true,
+        labelString: 'Orario campionamento'
+      }
       }],
       yAxes: [{
         ticks: {
@@ -143,7 +193,7 @@ var myLineChart = new Chart(ctx, {
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return  number_format(value) + ' ppm';
           }
         },
         gridLines: {
@@ -152,7 +202,11 @@ var myLineChart = new Chart(ctx, {
           drawBorder: false,
           borderDash: [2],
           zeroLineBorderDash: [2]
-        }
+        },
+       scaleLabel: {
+        display: true,
+        labelString: 'Concentrazione'
+      }
       }],
     },
     legend: {
@@ -171,11 +225,11 @@ var myLineChart = new Chart(ctx, {
       displayColors: false,
       intersect: false,
       mode: 'index',
-      caretPadding: 10,
+      caretPadding: 20,
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + ': ' + number_format(tooltipItem.yLabel)+' ppm';
         }
       }
     }
