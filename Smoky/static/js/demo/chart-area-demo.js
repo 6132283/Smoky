@@ -4,6 +4,11 @@ Chart.defaults.global.defaultFontColor = '#858796';
 
 var num_of_graph_points = 0;
 var id_lastread=0;
+var displayCoSensore1 = true;
+var displaySmokeSensore1 = true;
+var displayLpgSensore1 = true;
+
+
 
 function number_format(number, decimals, dec_point, thousands_sep) {
   // *     example: number_format(1234.56, 2, ',', ' ');
@@ -33,14 +38,13 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 
 function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new) {
 
-
-
     if(id_new > localStorage.getItem("last_id_displayed")) {
+    console.log("Id:" + id_new + " co:" + co_new + " smoke: " + smoke_new +" gas: "+ lpg_new +" data: "+ date_new);
 
         chart.data.labels.push(date_new.slice(11,19));
-        chart.data.datasets[0].data.push(co_new);
-        chart.data.datasets[1].data.push(smoke_new);
-        chart.data.datasets[2].data.push(lpg_new);
+        chart.data.datasets[2].data.push(co_new);
+        chart.data.datasets[0].data.push(smoke_new);
+        chart.data.datasets[1].data.push(lpg_new);
 
 
               if (num_of_graph_points > 8){
@@ -61,14 +65,13 @@ function askServer(chart){
 
   $.ajax({
   method: 'GET',
-  url: 'https://smoky2.000webhostapp.com/sensore_ale_getlastdata.php',
+  url: 'http://smokysmokysmoky.com/sensore_ale_getlastdata.php',
   dataType: 'json', //change the datatype to 'jsonp' works in most cases
 
   success: (res) => {
     addData(chart, res[0].ID, res[0].co2, res[0].smoke, res[0].gas, res[0].date);
     id_lastread = res[0].ID;
     localStorage.setItem("last_id_displayed",res[0].ID);
-    console.log(localStorage.getItem("last_id_displayed"));
 
   }
 
@@ -79,33 +82,38 @@ function ready() {
     alert('DOM is ready');
   }
 
-function prettyDate2(time){
-  var date = new Date(parseInt(time));
-  var localeSpecificTime = date.toLocaleTimeString();
-  return localeSpecificTimel;
-}
+function switchOnOffDataset(chart, sensorAttribute){ //sensorNumber e' 1 o 2 con 2 dispositivi
 
-function writeStaticVariables(variable,variablename){
+  let variableToModify;
+  let indexOfMeasurement; //identifica quale linea del grafico va a toccare
+  let sensorSpecific; //es. sensore 1 lpg
 
-  localStorage.setItem(variablename, variable);
+  switch(sensorAttribute) {
 
-}
+    case "lpg":
+      indexOfMeasurement = 1;
+      variableToModify = displayLpgSensore1;
+      displayLpgSensore1 = !displayLpgSensore1;
+      break;
+
+    case "co":
+      indexOfMeasurement = 2;
+      variableToModify = displayCoSensore1;
+      displayCoSensore1 = !displayCoSensore1;
+      break;
+
+    case "smoke":
+      indexOfMeasurement = 0;
+      variableToModify = displaySmokeSensore1;
+      displaySmokeSensore1 = !displaySmokeSensore1;
+      break;
+  }
+
+        chart.data.datasets[indexOfMeasurement].hidden = !chart.data.datasets[indexOfMeasurement].hidden;
+
+};
 
 
-
-function readStaticVariables(variablename){
-
-
-  var stringa = localStorage.getItem(variablename);
-  return stringa;
-
-}
-
-
-document.addEventListener('DOMContentLoaded', function(){
-  writeStaticVariables(0, "n_points_in_graph");
-
-})
 
 
 // Area Chart Example
@@ -161,19 +169,19 @@ var myLineChart = new Chart(ctx, {
     }],
   },
   options: {
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     layout: {
       padding: {
         left: 10,
         right: 25,
         top: 25,
-        bottom: 0
+        bottom: 20
       }
     },
     scales: {
       xAxes: [{
         time: {
-          unit: 'time'
+          unit: 'date'
         },
         gridLines: {
           display: false,
@@ -189,12 +197,10 @@ var myLineChart = new Chart(ctx, {
       }],
       yAxes: [{
         ticks: {
-          maxTicksLimit: 5,
+          maxTicksLimit: 6,
           padding: 10,
-          // Include a dollar sign in the ticks
-          callback: function(value, index, values) {
-            return  number_format(value) + ' ppm';
-          }
+          beginAtZero: true,
+
         },
         gridLines: {
           color: "rgb(234, 236, 244)",
@@ -205,7 +211,7 @@ var myLineChart = new Chart(ctx, {
         },
        scaleLabel: {
         display: true,
-        labelString: 'Concentrazione'
+        labelString: 'Concentrazione (in ppm)'
       }
       }],
     },
@@ -225,7 +231,7 @@ var myLineChart = new Chart(ctx, {
       displayColors: false,
       intersect: false,
       mode: 'index',
-      caretPadding: 20,
+      caretPadding: 10,
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
