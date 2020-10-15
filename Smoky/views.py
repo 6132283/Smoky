@@ -30,5 +30,10 @@ def buttons(request):
         request,
         'otherpages/buttons.html',
     )
+def settings(request):
+    return render(
+        request,
+        'otherpages/settings.html',
+    )
 
 

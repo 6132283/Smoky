@@ -36,10 +36,10 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 
-function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new) {
+function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id) {
 
     if(id_new > localStorage.getItem("last_id_displayed")) {
-    console.log("Id:" + id_new + " co:" + co_new + " smoke: " + smoke_new +" gas: "+ lpg_new +" data: "+ date_new);
+    console.log("Id:" + id_new + " co:" + co_new + " smoke: " + smoke_new +" gas: "+ lpg_new +" data: "+ date_new+" sensor ID: "+sensor_id);
 
         chart.data.labels.push(date_new.slice(11,19));
         chart.data.datasets[2].data.push(co_new);
@@ -61,15 +61,18 @@ function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new) {
 }
 
 
-function askServer(chart){
+function askServer(chart, sensorIDToAsk){
 
   $.ajax({
   method: 'GET',
-  url: 'http://smokysmokysmoky.com/sensore_ale_getlastdata.php',
+  url: 'http://smokysmokysmoky.com/sensor_getlastdata.php',
   dataType: 'json', //change the datatype to 'jsonp' works in most cases
+  data: {
+    sensorID: sensorIDToAsk,
+  },
 
   success: (res) => {
-    addData(chart, res[0].ID, res[0].co2, res[0].smoke, res[0].gas, res[0].date);
+    addData(chart, res[0].ID, res[0].co2, res[0].smoke, res[0].gas, res[0].date, res[0].sensorID);
     id_lastread = res[0].ID;
     localStorage.setItem("last_id_displayed",res[0].ID);
 

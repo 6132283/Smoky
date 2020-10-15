@@ -25,6 +25,8 @@ SECRET_KEY = ')-y50p6k3ad*@8*r=o+#fm9-11x711_loochbb6t4zztkjq^$f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
 ]
 
 MIDDLEWARE = [
@@ -51,6 +54,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mysite.urls'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TEMPLATES = [
     {
@@ -119,3 +124,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+

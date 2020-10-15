@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+{% load static %}
+
 <head>
 
   <meta charset="utf-8">
@@ -12,11 +14,11 @@
   <title>SB Admin 2 - Color Utilities</title>
 
   <!-- Custom fonts for this template-->
-  <link href="../../Smoky/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="../../Smoky/static/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
 
 </head>
 
@@ -339,85 +341,45 @@
           <div class="row">
 
             <!-- First Column -->
-            <div class="col-lg-4">
+            <div class="col-lg-12">
 
               <!-- Custom Text Color Utilities -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Custom Text Color Utilities</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Aggiungi nuovo sensore</h6>
                 </div>
                 <div class="card-body">
-                  <p class="text-gray-100 p-3 bg-dark m-0">.text-gray-100</p>
-                  <p class="text-gray-200 p-3 bg-dark m-0">.text-gray-200</p>
-                  <p class="text-gray-300 p-3 bg-dark m-0">.text-gray-300</p>
-                  <p class="text-gray-400 p-3 bg-dark m-0">.text-gray-400</p>
-                  <p class="text-gray-500 p-3 m-0">.text-gray-500</p>
-                  <p class="text-gray-600 p-3 m-0">.text-gray-600</p>
-                  <p class="text-gray-700 p-3 m-0">.text-gray-700</p>
-                  <p class="text-gray-800 p-3 m-0">.text-gray-800</p>
-                  <p class="text-gray-900 p-3 m-0">.text-gray-900</p>
-                </div>
-              </div>
-
-              <!-- Custom Font Size Utilities -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Custom Font Size Utilities</h6>
-                </div>
-                <div class="card-body">
-                  <p class="text-xs">.text-xs</p>
-                  <p class="text-lg mb-0">.text-lg</p>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Second Column -->
-            <div class="col-lg-4">
-
-              <!-- Background Gradient Utilities -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Custom Background Gradient Utilities</h6>
-                </div>
-                <div class="card-body">
-                  <div class="px-3 py-5 bg-gradient-primary text-white">.bg-gradient-primary</div>
-                  <div class="px-3 py-5 bg-gradient-secondary text-white">.bg-gradient-secondary</div>
-                  <div class="px-3 py-5 bg-gradient-success text-white">.bg-gradient-success</div>
-                  <div class="px-3 py-5 bg-gradient-info text-white">.bg-gradient-info</div>
-                  <div class="px-3 py-5 bg-gradient-warning text-white">.bg-gradient-warning</div>
-                  <div class="px-3 py-5 bg-gradient-danger text-white">.bg-gradient-danger</div>
-                  <div class="px-3 py-5 bg-gradient-light text-white">.bg-gradient-light</div>
-                  <div class="px-3 py-5 bg-gradient-dark text-white">.bg-gradient-dark</div>
-                </div>
-              </div>
-
-            </div>
-
-            <!-- Third Column -->
-            <div class="col-lg-4">
-
-              <!-- Grayscale Utilities -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Custom Grayscale Background Utilities</h6>
-                </div>
-                <div class="card-body">
-                  <div class="p-3 bg-gray-100">.bg-gray-100</div>
-                  <div class="p-3 bg-gray-200">.bg-gray-200</div>
-                  <div class="p-3 bg-gray-300">.bg-gray-300</div>
-                  <div class="p-3 bg-gray-400">.bg-gray-400</div>
-                  <div class="p-3 bg-gray-500 text-white">.bg-gray-500</div>
-                  <div class="p-3 bg-gray-600 text-white">.bg-gray-600</div>
-                  <div class="p-3 bg-gray-700 text-white">.bg-gray-700</div>
-                  <div class="p-3 bg-gray-800 text-white">.bg-gray-800</div>
-                  <div class="p-3 bg-gray-900 text-white">.bg-gray-900</div>
+                 <form>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">ID Sensore</label>
+                    <input  class="form-control" id="idSensore" >
+                    <small  class="form-text text-muted">Inserisci l'ID di fabbrica del sensore</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Nome sensore</label>
+                    <input class="form-control" id="nomeSensore" >
+                     <small  class="form-text text-muted">Scegli un nome per identificare il sensore</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Livello allerta CO</label>
+                    <input  class="form-control" id="livelloCO" >
+                    <small  class="form-text text-muted">Imposta il livello di CO (in ppm) oltre il quale verrai notificato via mail</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Livello allerta Fumo</label>
+                    <input class="form-control" id="livelloFumo" >
+                    <small  class="form-text text-muted">Imposta il livello di Fumo (in ppm) oltre il quale verrai notificato via mail</small>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Livello allerta Gas</label>
+                    <input class="form-control" id="livelloGas" >
+                    <small  class="form-text text-muted">Imposta il livello di GPL (in ppm) oltre il quale verrai notificato via mail</small>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Aggiungi</button>
+                </form>
                 </div>
               </div>
             </div>
-
-          </div>
-
         </div>
         <!-- /.container-fluid -->
 
@@ -465,14 +427,14 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="../../Smoky/static/vendor/jquery/jquery.min.js"></script>
-  <script src="../../Smoky/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="../../Smoky/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="../../Smoky/static/js/sb-admin-2.min.js"></script>
+  <script src=" {% static 'js/sb-admin-2.min.js' %}"></script>
 
 </body>
 
