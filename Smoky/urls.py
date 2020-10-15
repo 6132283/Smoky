@@ -8,6 +8,5 @@ urlpatterns = [
     path('tables',views.tables, name="tables"),
     path('buttons',views.buttons, name="buttons"),
     path('settings', views.settings, name="settings"),
-    path('',include("django.contrib.auth.urls")),
 
 ]

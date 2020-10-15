@@ -6,11 +6,11 @@ from django.db import models
 
 
 class User(models.Model):
-    email = models.ChartField(primary_key=True, max_length=50)
-    password = models.ChartField()
+    email = models.CharField(primary_key=True, max_length=50)
+    password = models.CharField(max_length=50)
 
 class Sensor(models.Model):
-    name = models.ChartField(max_length=50)
+    name = models.CharField(max_length=50)
     ID = models.IntegerField(primary_key=True)
     alertCO = models.IntegerField()
     alertSmoke = models.IntegerField()
