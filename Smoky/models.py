@@ -10,7 +10,7 @@ class User(models.Model):
     password = models.CharField(max_length=50)
 
 class Sensor(models.Model):
-    name = models.CharField(max_length=50) 
+    name = models.CharField(max_length=50)
     ID = models.IntegerField(primary_key=True)
     alertCO = models.IntegerField()
     alertSmoke = models.IntegerField()

@@ -61,6 +61,13 @@ function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id)
 }
 
 
+function createGraphSpace(areaChartId)
+{
+  g = document.createElement('canvas');
+  g.setAttribute("id", areaChartId);
+  document.getElementById("graph-place-holder").append(g);
+}
+
 function askServer(chart, sensorIDToAsk){
 
   $.ajax({
@@ -118,129 +125,147 @@ function switchOnOffDataset(chart, sensorAttribute){ //sensorNumber e' 1 o 2 con
 
 
 
-
+function createGraph(graphName, sensorToAsk) {
 // Area Chart Example
-var ctx = document.getElementById("myAreaChart");
-var myLineChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: [],
-    datasets: [{
-      label: "Smoke",
-      lineTension: 0.3,
-      backgroundColor: "rgba(255, 24, 25, 0.05)",
-      borderColor: "rgba(255, 24, 25, 1)",
-      pointRadius: 3,
-      pointBackgroundColor: "rgba(255, 24, 25, 1)",
-      pointBorderColor: "rgba(255, 24, 25, 1)",
-      pointHoverRadius: 3,
-      pointHoverBackgroundColor: "rgba(255, 24, 25, 1)",
-      pointHoverBorderColor: "rgba(255, 24, 25, 1)",
-      pointHitRadius: 10,
-      pointBorderWidth: 2,
-      data: [],
-    },
-      {
-      label: "Gpl",
-      lineTension: 0.3,
-      backgroundColor: "rgba(100, 115, 223, 0.05)",
-      borderColor: "rgba(100, 115, 223, 1)",
-      pointRadius: 2,
-      pointBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointBorderColor: "rgba(78, 115, 223, 1)",
-      pointHoverRadius: 3,
-      pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-      pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-      pointHitRadius: 10,
-      pointBorderWidth: 2,
-      data: [],
-    },
-      {
-      label: "CO",
-      lineTension: 0.3,
-      backgroundColor: "rgba(255, 165, 0, 0.05)",
-      borderColor: "rgba(255, 165, 0, 1)",
-      pointRadius: 2,
-      pointBackgroundColor: "rgba(255, 165, 0, 1)",
-      pointBorderColor: "rgba(255, 165, 0, 1)",
-      pointHoverRadius: 3,
-      pointHoverBackgroundColor: "rgba(255, 165, 0, 1)",
-      pointHoverBorderColor: "rgba(255, 165, 0, 1)",
-      pointHitRadius: 10,
-      pointBorderWidth: 2,
-      data: [],
-    }],
-  },
-  options: {
-    maintainAspectRatio: false,
-    layout: {
-      padding: {
-        left: 10,
-        right: 25,
-        top: 25,
-        bottom: 20
-      }
-    },
-    scales: {
-      xAxes: [{
-        time: {
-          unit: 'date'
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        },
-        ticks: {
-          maxTicksLimit: 7
-        },
-        scaleLabel: {
-        display: true,
-        labelString: 'Orario campionamento'
-      }
-      }],
-      yAxes: [{
-        ticks: {
-          maxTicksLimit: 6,
-          padding: 10,
-          beginAtZero: true,
+  var ctx = document.getElementById(graphName);
 
+  var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: "Smoke",
+        lineTension: 0.3,
+        backgroundColor: "rgba(255, 24, 25, 0.05)",
+        borderColor: "rgba(255, 24, 25, 1)",
+        pointRadius: 3,
+        pointBackgroundColor: "rgba(255, 24, 25, 1)",
+        pointBorderColor: "rgba(255, 24, 25, 1)",
+        pointHoverRadius: 3,
+        pointHoverBackgroundColor: "rgba(255, 24, 25, 1)",
+        pointHoverBorderColor: "rgba(255, 24, 25, 1)",
+        pointHitRadius: 10,
+        pointBorderWidth: 2,
+        data: [],
+      },
+        {
+          label: "Gpl",
+          lineTension: 0.3,
+          backgroundColor: "rgba(100, 115, 223, 0.05)",
+          borderColor: "rgba(100, 115, 223, 1)",
+          pointRadius: 2,
+          pointBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointBorderColor: "rgba(78, 115, 223, 1)",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+          pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: [],
         },
-        gridLines: {
-          color: "rgb(234, 236, 244)",
-          zeroLineColor: "rgb(234, 236, 244)",
-          drawBorder: false,
-          borderDash: [2],
-          zeroLineBorderDash: [2]
-        },
-       scaleLabel: {
-        display: true,
-        labelString: 'Concentrazione (in ppm)'
-      }
-      }],
+        {
+          label: "CO",
+          lineTension: 0.3,
+          backgroundColor: "rgba(255, 165, 0, 0.05)",
+          borderColor: "rgba(255, 165, 0, 1)",
+          pointRadius: 2,
+          pointBackgroundColor: "rgba(255, 165, 0, 1)",
+          pointBorderColor: "rgba(255, 165, 0, 1)",
+          pointHoverRadius: 3,
+          pointHoverBackgroundColor: "rgba(255, 165, 0, 1)",
+          pointHoverBorderColor: "rgba(255, 165, 0, 1)",
+          pointHitRadius: 10,
+          pointBorderWidth: 2,
+          data: [],
+        }],
     },
-    legend: {
-      display: false
-    },
-    tooltips: {
-      backgroundColor: "rgb(255,255,255)",
-      bodyFontColor: "#858796",
-      titleMarginBottom: 10,
-      titleFontColor: '#6e707e',
-      titleFontSize: 14,
-      borderColor: '#dddfeb',
-      borderWidth: 1,
-      xPadding: 15,
-      yPadding: 15,
-      displayColors: false,
-      intersect: false,
-      mode: 'index',
-      caretPadding: 10,
-      callbacks: {
-        label: function(tooltipItem, chart) {
-          var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': ' + number_format(tooltipItem.yLabel)+' ppm';
+    options: {
+      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          left: 10,
+          right: 25,
+          top: 25,
+          bottom: 20
+        }
+      },
+      scales: {
+        xAxes: [{
+          time: {
+            unit: 'date'
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          ticks: {
+            maxTicksLimit: 7
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Orario campionamento'
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            maxTicksLimit: 6,
+            padding: 10,
+            beginAtZero: true,
+
+          },
+          gridLines: {
+            color: "rgb(234, 236, 244)",
+            zeroLineColor: "rgb(234, 236, 244)",
+            drawBorder: false,
+            borderDash: [2],
+            zeroLineBorderDash: [2]
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Concentrazione (in ppm)'
+          }
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        backgroundColor: "rgb(255,255,255)",
+        bodyFontColor: "#858796",
+        titleMarginBottom: 10,
+        titleFontColor: '#6e707e',
+        titleFontSize: 14,
+        borderColor: '#dddfeb',
+        borderWidth: 1,
+        xPadding: 15,
+        yPadding: 15,
+        displayColors: false,
+        intersect: false,
+        mode: 'index',
+        caretPadding: 10,
+        callbacks: {
+          label: function (tooltipItem, chart) {
+            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+            return datasetLabel + ': ' + number_format(tooltipItem.yLabel) + ' ppm';
+          }
         }
       }
     }
-  }
-});
+  });
+
+    setInterval(function () {
+    askServer(myLineChart,sensorToAsk);
+    }, 1000);
+
+    return myLineChart;
+};
+
+
+createGraphSpace("myAreaChart");//questa funzione e' da generalizzare
+newChart = createGraph("myAreaChart",1); //dato un Id che do in input posso creare un grafico autoaggiornante
+
+
+
+var node = document.getElementById("graph-row");
+var clone = node.cloneNode(true);
+document.getElementById("graph-body").appendChild(clone);
