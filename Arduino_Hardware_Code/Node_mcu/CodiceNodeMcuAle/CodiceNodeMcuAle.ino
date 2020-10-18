@@ -8,7 +8,7 @@ int co = 0;
 int smoke = 0; 
 const char* ssid = "D'Amico BB";
 const char* password = "Fiorentina2";
-const char* host = "smoky2.000webhostapp.com";
+const char* host = "smokysmokysmoky.com";
 
 
 void setup()
@@ -33,7 +33,7 @@ void loop()
 }
 
 void SendingToDB()
-{ 
+{
   while(NodeMcu.read() != '\n'){
     NodeMcu.parseInt();
   }
@@ -45,15 +45,17 @@ void SendingToDB()
     Serial.println("connection with server failed");
     return;
   }
-  client.print("GET /insert_ale.php?co2=");
+  client.print("GET /insert.php?co2=");
   client.print(co);
   client.print("&smoke=");
   client.print(smoke);
   client.print("&gas=");
   client.print(lpg);
+  client.print("&sensorID=");
+  client.print(1);
   client.print(" HTTP/1.1");
   client.println();
-  client.println("Host: smoky2.000webhostapp.com");
+  client.println("Host: smokysmokysmoky.com");
   client.println();
   client.println("Connection: close");
   client.println();
