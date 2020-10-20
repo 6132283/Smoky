@@ -127,7 +127,7 @@
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Rilevazioni sensori</h6>
+                                <h6 class="m-0 font-weight-bold text-primary graph-title">Rilevazioni sensori</h6>
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -142,10 +142,12 @@
                                         <a class="dropdown-item" href="#">Something else here</a>
                                     </div>
                                 </div>
+
                             </div>
                             <!-- Card Body -->
                             <div class="card-body">
-                                <div class="chart-area" style="height: 20rem;" id="graph-place-holder"></div>
+                                <div class="chart-area graph-place-holder" style="height: 20rem;" ></div>
+                                <p class="text-center">Testo con valore dei sensori</p>
                             </div>
 
                         </div>
@@ -156,7 +158,7 @@
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Visualizzazione</h6>
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -188,35 +190,28 @@
                                     <canvas id="myPieChart" width="409" height="367" class="chartjs-render-monitor" style="display: block; height: 245px; width: 273px;"></canvas>
                                 </div>
                                 <!-- Material switch -->
-                                <div class="custom-control custom-switch" id="bottone1" >
-                                  <input type="checkbox" class="custom-control-input" id="customSwitches1" onclick="switchOnOffDataset(newChart,'co')" checked>
-                                  <label class="custom-control-label" for="customSwitches1">CO - Sensore 1</label>
-                                </div>
-                                <div class="custom-control custom-switch">
-                                  <input type="checkbox" class="custom-control-input" id="customSwitches2" onclick="switchOnOffDataset(newChart,'smoke')" checked>
-                                  <label class="custom-control-label" for="customSwitches2">Smoke - Sensore 1</label>
-                                </div>
-                                <div class="custom-control custom-switch">
-                                  <input type="checkbox" class="custom-control-input" id="customSwitches3" onclick="switchOnOffDataset(newChart,'lpg')" checked>
-                                  <label class="custom-control-label" for="customSwitches3">Gpl - Sensore 1</label>
-                                </div>
-                                <div class="custom-control custom-switch" id="bottone1" >
-                                  <input type="checkbox" class="custom-control-input" id="customSwitches4" onclick="alert('click event occured')" checked>
-                                  <label class="custom-control-label" for="customSwitches4">CO - Sensore 2</label>
-                                </div>
-                                <div class="custom-control custom-switch">
-                                  <input type="checkbox" class="custom-control-input" id="customSwitches5" checked>
-                                  <label class="custom-control-label" for="customSwitches5">Smoke - Sensore 2</label>
-                                </div>
-                                <div class="custom-control custom-switch">
-                                  <input type="checkbox" class="custom-control-input" id="customSwitches6" checked>
-                                  <label class="custom-control-label" for="customSwitches6">Gpl - Sensore 2</label>
+                                <div class="bottoniera">
+                                    <div class="custom-control custom-switch" >
+                                      <input type="checkbox" class="custom-control-input" id="customSwitches1" checked>
+                                      <label class="custom-control-label" for="customSwitches1">CO</label>
+                                    </div>
+                                    <div class="custom-control custom-switch">
+                                      <input type="checkbox" class="custom-control-input" id="customSwitches2" onclick="switchOnOffDataset(newChart,'smoke')" checked>
+                                      <label class="custom-control-label" for="customSwitches2">Fumo</label>
+                                    </div>
+                                    <div class="custom-control custom-switch">
+                                      <input type="checkbox" class="custom-control-input" id="customSwitches3" onclick="switchOnOffDataset(newChart,'lpg')" checked>
+                                      <label class="custom-control-label" for="customSwitches3">Gpl</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
+                <div class="row" style="    padding-left: .75rem;  padding-bottom: 1rem">
+                    <button type="button" class="btn btn-primary" onclick="createNewSensorGraph('prova',1); createNewSensorGraph('ok',2)"> + Nuovo grafico</button>
+                </div>
 
                 <!-- Content Row -->
 

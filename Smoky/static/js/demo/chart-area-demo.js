@@ -2,25 +2,23 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-var num_of_graph_points = 0;
-var id_lastread=0;
-var displayCoSensore1 = true;
-var displaySmokeSensore1 = true;
-var displayLpgSensore1 = true;
-
+function SensorRow() {
+  this.num_of_graph_points = 0;
+  this.id_lastread = 0;
+}
 
 
 function number_format(number, decimals, dec_point, thousands_sep) {
   // *     example: number_format(1234.56, 2, ',', ' ');
   // *     return: '1 234,56'
   number = (number + '').replace(',', '').replace(' ', '');
-  var n = !isFinite(+number) ? 0 : +number,
+  let n = !isFinite(+number) ? 0 : +number,
     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
     sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
     dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
     s = '',
     toFixedFix = function(n, prec) {
-      var k = Math.pow(10, prec);
+      let k = Math.pow(10, prec);
       return '' + Math.round(n * k) / k;
     };
   // Fix for IE parseFloat(0.55).toFixed(0) = 0;
@@ -36,9 +34,9 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 
-function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id) {
+function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id, sensorRow) {
 
-    if(id_new > localStorage.getItem("last_id_displayed")) {
+    if(id_new > sensorRow.id_lastread) {
     console.log("Id:" + id_new + " co:" + co_new + " smoke: " + smoke_new +" gas: "+ lpg_new +" data: "+ date_new+" sensor ID: "+sensor_id);
 
         chart.data.labels.push(date_new.slice(11,19));
@@ -47,14 +45,14 @@ function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id)
         chart.data.datasets[1].data.push(lpg_new);
 
 
-              if (num_of_graph_points > 8){
+              if (sensorRow.num_of_graph_points > 8){ //questo deve essere un attributo di classe, altrimenti i pallini del secondo grafico non vengono messi
                   chart.data.labels.shift();
                   chart.data.datasets.forEach((dataset) => {
                   dataset.data.shift();})
               }
 
               else
-                {num_of_graph_points++;}
+                {sensorRow.num_of_graph_points++;}
 
   chart.update();
 }
@@ -63,13 +61,12 @@ function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id)
 
 function createGraphSpace(areaChartId)
 {
-  g = document.createElement('canvas');
+  let g = document.createElement('canvas');
   g.setAttribute("id", areaChartId);
-  document.getElementById("graph-place-holder").append(g);
+  document.getElementsByClassName("graph-place-holder")[0].append(g);
 }
 
-function askServer(chart, sensorIDToAsk){
-
+function askServer(chart, sensorIDToAsk, sensorRow){
   $.ajax({
   method: 'GET',
   url: 'http://smokysmokysmoky.com/sensor_getlastdata.php',
@@ -79,57 +76,62 @@ function askServer(chart, sensorIDToAsk){
   },
 
   success: (res) => {
-    addData(chart, res[0].ID, res[0].co2, res[0].smoke, res[0].gas, res[0].date, res[0].sensorID);
-    id_lastread = res[0].ID;
-    localStorage.setItem("last_id_displayed",res[0].ID);
+    addData(chart, res[0].ID, res[0].co2, res[0].smoke, res[0].gas, res[0].date, res[0].sensorID, sensorRow);
+    sensorRow.id_lastread = res[0].ID;
 
   }
 
 });
 }
 
-function ready() {
-    alert('DOM is ready');
-  }
+
+
+
+
 
 function switchOnOffDataset(chart, sensorAttribute){ //sensorNumber e' 1 o 2 con 2 dispositivi
 
-  let variableToModify;
-  let indexOfMeasurement; //identifica quale linea del grafico va a toccare
-  let sensorSpecific; //es. sensore 1 lpg
+  let indexOfMeasurement;
 
   switch(sensorAttribute) {
 
     case "lpg":
       indexOfMeasurement = 1;
-      variableToModify = displayLpgSensore1;
-      displayLpgSensore1 = !displayLpgSensore1;
       break;
 
     case "co":
       indexOfMeasurement = 2;
-      variableToModify = displayCoSensore1;
-      displayCoSensore1 = !displayCoSensore1;
       break;
 
     case "smoke":
       indexOfMeasurement = 0;
-      variableToModify = displaySmokeSensore1;
-      displaySmokeSensore1 = !displaySmokeSensore1;
       break;
   }
 
         chart.data.datasets[indexOfMeasurement].hidden = !chart.data.datasets[indexOfMeasurement].hidden;
 
-};
+}
+
+function switchOnOffDatasetCO(chart){
+          chart.data.datasets[2].hidden = !chart.data.datasets[2].hidden;
+}
+
+function switchOnOffDatasetSmoke(chart){
+          chart.data.datasets[0].hidden = !chart.data.datasets[0].hidden;
+}
+
+function switchOnOffDatasetLpg(chart){
+          chart.data.datasets[1].hidden = !chart.data.datasets[1].hidden;
+}
 
 
 
 function createGraph(graphName, sensorToAsk) {
 // Area Chart Example
-  var ctx = document.getElementById(graphName);
+  let ctx = document.getElementById(graphName);
+  let sensorRow = new SensorRow();
 
-  var myLineChart = new Chart(ctx, {
+  let myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: [],
@@ -245,7 +247,7 @@ function createGraph(graphName, sensorToAsk) {
         caretPadding: 10,
         callbacks: {
           label: function (tooltipItem, chart) {
-            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+            let datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
             return datasetLabel + ': ' + number_format(tooltipItem.yLabel) + ' ppm';
           }
         }
@@ -253,19 +255,35 @@ function createGraph(graphName, sensorToAsk) {
     }
   });
 
-    setInterval(function () {
-    askServer(myLineChart,sensorToAsk);
-    }, 1000);
+    setInterval(async function () {
+    askServer(myLineChart,sensorToAsk,sensorRow);
+    }, 2000);
 
     return myLineChart;
-};
+}
 
 
+function createNewSensorGraph(graphName, sensorNumber) {
+  let node = document.getElementById("graph-row");
+  let clone = node.cloneNode(true);
+  clone.getElementsByClassName("chart-area")[0].innerHTML = "<canvas id = '" + graphName + "'></canvas>";
+  clone.getElementsByClassName("graph-title")[0].innerHTML= graphName;
+  document.getElementById("graph-body").appendChild(clone);
+  newChart1 = createGraph(graphName, sensorNumber); //dato un Id che do in input posso creare un grafico autoaggiornante
+
+  coButtonid = graphName + "0";
+  smokeButtonid = graphName + "ciao1";
+  gplButtonid = graphName + "ciao2";
+
+  coButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ coButtonid +"'  onclick='switchOnOffDatasetCO(newChart1);'+' checked><label class='custom-control-label' for='"+coButtonid+"'>CO</label></div>";
+  smokeButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1);'+' checked><label class='custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
+  gplButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ gplButtonid +"'  onclick='switchOnOffDatasetLpg(newChart1);'+' checked><label class='custom-control-label' for='" + gplButtonid + "'>Gpl</label></div>";
+  clone.getElementsByClassName("bottoniera")[0].innerHTML = coButton + smokeButton + gplButton;
+
+}
 createGraphSpace("myAreaChart");//questa funzione e' da generalizzare
 newChart = createGraph("myAreaChart",1); //dato un Id che do in input posso creare un grafico autoaggiornante
 
-
-
-var node = document.getElementById("graph-row");
-var clone = node.cloneNode(true);
-document.getElementById("graph-body").appendChild(clone);
+const varToString = varObj => Object.keys(varObj)[0];
+let ok = document.getElementById("customSwitches1");
+ok.setAttribute("onclick","switchOnOffDataset(" + varToString({newChart}) +",'co');");
