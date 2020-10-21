@@ -31,7 +31,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'home' %}">
         <div class="sidebar-brand-text mx-3">SMOKY</div>
       </a>
 
@@ -40,7 +40,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="{% url 'home' %}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Pannello di controllo</span></a>
       </li>
@@ -289,35 +289,36 @@
                   <h6 class="m-0 font-weight-bold text-primary">Aggiungi nuovo sensore</h6>
                 </div>
                 <div class="card-body">
-                 <form>
+                 <form action="http://smokysmokysmoky.com/new_sensor.php" method="post" target="hide">
+                  <iframe style="display: none" name="hide" id="hide"></iframe>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">ID Sensore</label>
-                    <input  class="form-control" id="idSensore" >
+                    <label for="sensorID">ID Sensore</label>
+                    <input  type="number" class="form-control" name="sensorID" >
                     <small  class="form-text text-muted">Inserisci l'ID di fabbrica del sensore</small>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Nome sensore</label>
-                    <input class="form-control" id="nomeSensore" >
+                    <label for="name">Nome sensore</label>
+                    <input type="text" class="form-control" name="name" >
                      <small  class="form-text text-muted">Scegli un nome per identificare il sensore</small>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Livello allerta CO</label>
-                    <input  class="form-control" id="livelloCO" >
+                    <label for="co2">Livello allerta CO</label>
+                    <input type="number" class="form-control" name="co2">
                     <small  class="form-text text-muted">Imposta il livello di CO (in ppm) oltre il quale verrai notificato via mail</small>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Livello allerta Fumo</label>
-                    <input class="form-control" id="livelloFumo" >
+                    <label for="smoke">Livello allerta Fumo</label>
+                    <input type="number" class="form-control" name="smoke">
                     <small  class="form-text text-muted">Imposta il livello di Fumo (in ppm) oltre il quale verrai notificato via mail</small>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Livello allerta Gas</label>
-                    <input class="form-control" id="livelloGas" >
+                    <label for="gas">Livello allerta Gas</label>
+                    <input type="number" class="form-control" name="gas">
                     <small  class="form-text text-muted">Imposta il livello di GPL (in ppm) oltre il quale verrai notificato via mail</small>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Email da notificare</label>
-                    <input class="form-control" id="livelloGas" >
+                    <label for="email">Email da notificare</label>
+                    <input type="text" class="form-control" name="email">
                     <small  class="form-text text-muted">Mail a cui verra' notificata l'allerta ogni qual volta vengono registrati valori oltre le soglie sopra impostate</small>
                   </div>
                   <button type="submit" class="btn btn-primary">Aggiungi</button>
@@ -326,6 +327,7 @@
               </div>
             </div>
         </div>
+
         <!-- /.container-fluid -->
 
       </div>
