@@ -58,14 +58,6 @@ function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id,
 }
 }
 
-
-function createGraphSpace(areaChartId)
-{
-  let g = document.createElement('canvas');
-  g.setAttribute("id", areaChartId);
-  document.getElementsByClassName("graph-place-holder")[0].append(g);
-}
-
 function askServer(chart, sensorIDToAsk, sensorRow){
   $.ajax({
   method: 'GET',
@@ -267,13 +259,14 @@ function createNewSensorGraph(graphName, sensorNumber) {
   let node = document.getElementById("graph-row");
   let clone = node.cloneNode(true);
   clone.getElementsByClassName("chart-area")[0].innerHTML = "<canvas id = '" + graphName + "'></canvas>";
+  clone.style["display"] = "flex";
   clone.getElementsByClassName("graph-title")[0].innerHTML= graphName;
   document.getElementById("graph-body").appendChild(clone);
   newChart1 = createGraph(graphName, sensorNumber); //dato un Id che do in input posso creare un grafico autoaggiornante
 
-  coButtonid = graphName + "0";
-  smokeButtonid = graphName + "ciao1";
-  gplButtonid = graphName + "ciao2";
+  coButtonid = graphName + "coButton";
+  smokeButtonid = graphName + "smokeButton";
+  gplButtonid = graphName + "gplButton";
 
   coButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ coButtonid +"'  onclick='switchOnOffDatasetCO(newChart1);'+' checked><label class='custom-control-label' for='"+coButtonid+"'>CO</label></div>";
   smokeButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1);'+' checked><label class='custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
@@ -281,9 +274,12 @@ function createNewSensorGraph(graphName, sensorNumber) {
   clone.getElementsByClassName("bottoniera")[0].innerHTML = coButton + smokeButton + gplButton;
 
 }
-createGraphSpace("myAreaChart");//questa funzione e' da generalizzare
-newChart = createGraph("myAreaChart",1); //dato un Id che do in input posso creare un grafico autoaggiornante
 
-const varToString = varObj => Object.keys(varObj)[0];
-let ok = document.getElementById("customSwitches1");
-ok.setAttribute("onclick","switchOnOffDataset(" + varToString({newChart}) +",'co');");
+
+document.getElementById("newGraphButton").onclick = function(){
+
+  graphName = document.getElementById("graphname").value;
+  sensorNumber = document.getElementById("sensorid").value;
+  createNewSensorGraph(graphName,sensorNumber)
+};
+
