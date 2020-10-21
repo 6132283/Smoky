@@ -152,8 +152,7 @@ document.getElementById("download_link" ).click();
           orows = {},
           count = 1;
 
-      if (o !== undefined && o !== null && (!isObject(o) || Array.isArray(o)))
-        throw errorItemNotAnObject.replace('{0}', JSON.stringify(o));
+
 
       var keys = getKeys(o);
       for (var k = 0; k < keys.length; k++) {
@@ -208,8 +207,7 @@ document.getElementById("download_link" ).click();
     for (var i = 0; i < data.length; i++) {
     	var o = data[i],
     			row = {};
-    	if (o !== undefined && o !== null && (!isObject(o) || Array.isArray(o)))
-    		throw errorItemNotAnObject.replace('{0}', JSON.stringify(o));
+
     	var keys = getKeys(o);
     	for (var k = 0; k < keys.length; k++) {
     		var key = keys[k];
@@ -460,5 +458,4 @@ function prova1(){
 }
 
 
-alert(convert(obj));
 
