@@ -70,7 +70,6 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Impostazioni:</h6>
                     <a class="collapse-item" href="{% url 'settings' %}">Sensori</a>
-                    <a class="collapse-item" href="utilities-border.html">Utenti</a>
                 </div>
             </div>
         </li>
@@ -112,8 +111,10 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Pannello di controllo</h1>
-                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                            class="fas fa-download fa-sm text-white-50"></i> Scarica i dati</a>
+                    <a id="download_link" download="DatiSensori.csv" onclick="getAllCsv()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-download fa-sm text-white-50"></i>
+                        Scarica i dati
+                    </a>
                 </div>
 
 
@@ -135,9 +136,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header">Dropdown Header:</div>
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <div class="dropdown-header" onclick="getAllCsv()">Dropdown Header:</div>
+                                        <a class="dropdown-item" href="#">Delete</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">Something else here</a>
                                     </div>
@@ -147,7 +147,7 @@
                             <!-- Card Body -->
                             <div class="card-body">
                                 <div class="chart-area graph-place-holder" style="height: 20rem;" ></div>
-                                <p class="text-center">Testo con valore dei sensori</p>
+                                <p class="text-center sensors-text">Testo con valore dei sensori</p>
                             </div>
 
                         </div>
@@ -234,7 +234,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Alessandro D'Amico e Riccardo Bronzi per @UniFi</span>
+                        <span id="creators">Alessandro D'Amico e Riccardo Bronzi per @UniFi</span>
                     </div>
                 </div>
             </footer>
