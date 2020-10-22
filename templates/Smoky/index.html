@@ -29,7 +29,6 @@
 <body id="page-top">
 <!-- Page Wrapper -->
 <div id="wrapper">
-
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -101,13 +100,13 @@
                       </button>
 
                       <!-- Topbar Search -->
-                      <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                      <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" onsubmit="return false;">
                         <div class="input-group">
-                          <input type="text" class="form-control bg-light border-0 small" placeholder="Cerca grafico..." aria-label="Search" aria-describedby="basic-addon2">
+                          <input type="text" class="form-control bg-light border-0 small" placeholder="Cerca grafico..." aria-label="Search" aria-describedby="basic-addon2" id="search-graph" type="search">
                           <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
+                            <submit class="btn btn-primary" type="button" onclick="searchAndScroll()" id="searchbutton">
                               <i class="fas fa-search fa-sm"></i>
-                            </button>
+                            </submit>
                           </div>
                         </div>
                       </form>
@@ -281,10 +280,12 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Pannello di controllo</h1>
-                    <a id="download_link" download="DatiSensori.csv" onclick="getAllCsv()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                        <i class="fas fa-download fa-sm text-white-50"></i>
-                        Scarica i dati
-                    </a>
+                    <div onclick="getAllCsv()">
+                         <a id="download_link" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" style="color:white">
+                            <i class="fas fa-download fa-sm text-white-50"></i>
+                             Scarica i dati
+                         </a>
+                    </div>
                 </div>
 
 
@@ -306,7 +307,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header" onclick="getAllCsv()">Dropdown Header:</div>
+                                        <div class="dropdown-header">Dropdown Header:</div>
                                         <a class="dropdown-item" href="#">Delete</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">Something else here</a>
