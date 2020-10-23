@@ -415,6 +415,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 }
 
   function createNewSensorGraph(graphName, sensorNumber) {
+    graphName = graphName.toLowerCase();
     let node = document.getElementById("graph-row");
     let clone = node.cloneNode(true);
     clone.getElementsByClassName("chart-area")[0].innerHTML = "<canvas id = '" + graphName + "'></canvas>";
@@ -578,20 +579,9 @@ Chart.defaults.global.defaultFontColor = '#858796';
 }
 
 
-document.getElementById("newGraphButton").onclick = function(){
-
-  graphName = document.getElementById("graphname").value;
-  sensorNumber = document.getElementById("sensorid").value;
-  createNewSensorGraph(graphName,sensorNumber)
-
-};
-
-
-
-
-
 function searchAndScroll(){
     let stringa = document.getElementById("search-graph").value;
+    stringa = stringa.toLowerCase();
     let elmnt = document.getElementsByClassName(stringa)[0];
     elmnt.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
