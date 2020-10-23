@@ -213,11 +213,10 @@ Chart.defaults.global.defaultFontColor = '#858796';
       document.getElementsByClassName(sensorRow.values_string_co)[0].innerHTML=res[0].co2 + " ppm";
       document.getElementsByClassName(sensorRow.values_string_smoke)[0].innerHTML=res[0].smoke + " ppm";
       document.getElementsByClassName(sensorRow.values_string_lpg)[0].innerHTML = res[0].gas + " ppm";
-    }
+  }
 
 });
 }
-
 
   function getAllCsv(){
 
@@ -414,7 +413,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 }
 
   function createNewSensorGraph(graphName, sensorNumber) {
-
+    graphName = graphName.toLowerCase();
     let node = document.getElementById("graph-row");
     let clone = node.cloneNode(true);
     clone.getElementsByClassName("chart-area")[0].innerHTML = "<canvas id = '" + graphName + "'></canvas>";
@@ -607,6 +606,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function searchAndScroll(){
     let stringa = document.getElementById("search-graph").value;
+    stringa = stringa.toLowerCase();
     let elmnt = document.getElementsByClassName(stringa)[0];
     elmnt.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
