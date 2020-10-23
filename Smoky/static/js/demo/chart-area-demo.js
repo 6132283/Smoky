@@ -6,6 +6,10 @@ Chart.defaults.global.defaultFontColor = '#858796';
   function SensorRow() {
   this.num_of_graph_points = 0;
   this.id_lastread = 0;
+  this.values_string_id="";
+  this.values_string_co="";
+  this.values_string_smoke="";
+  this.values_string_lpg="";
 }
 
   function download(data, strFileName, strMimeType) {
@@ -207,6 +211,9 @@ Chart.defaults.global.defaultFontColor = '#858796';
     success: (res) => {
       addData(chart, res[0].ID, res[0].co2, res[0].smoke, res[0].gas, res[0].date, res[0].sensorID, sensorRow);
       sensorRow.id_lastread = res[0].ID;
+      document.getElementsByClassName(sensorRow.values_string_co)[0].innerHTML=res[0].co2 + " ppm";
+      document.getElementsByClassName(sensorRow.values_string_smoke)[0].innerHTML=res[0].smoke + " ppm";
+      document.getElementsByClassName(sensorRow.values_string_lpg)[0].innerHTML = res[0].gas + " ppm";
 
   }
 
@@ -413,8 +420,6 @@ Chart.defaults.global.defaultFontColor = '#858796';
     clone.getElementsByClassName("chart-area")[0].innerHTML = "<canvas id = '" + graphName + "'></canvas>";
     clone.style["display"] = "flex";
     clone.getElementsByClassName("graph-title")[0].innerHTML = graphName;
-
-    clone.getElementsByClassName("sensors-text")[0].textContent ="HEY HEY";  //TODO modificare questo testo (con linea precedente)
     document.getElementById("graph-body").appendChild(clone);
     newChart1 = createGraph(graphName, sensorNumber); //dato un Id che do in input posso creare un grafico autoaggiornante
     let random = Math.random().toString(36).substring(7);
@@ -425,12 +430,19 @@ Chart.defaults.global.defaultFontColor = '#858796';
     smokeButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1);'+' checked><label class='custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
     gplButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ gplButtonid +"'  onclick='switchOnOffDatasetLpg(newChart1);'+' checked><label class='custom-control-label' for='" + gplButtonid + "'>Gpl</label></div>";
     clone.getElementsByClassName("bottoniera")[0].innerHTML = coButton + smokeButton + gplButton;
-        clone.getElementsByClassName("chart-area")[0].classList.add(graphName);
+    clone.getElementsByClassName("chart-area")[0].classList.add(graphName);
+    let sensorRow = new SensorRow();
+    clone.getElementsByClassName("sensors-text-1")[0].classList.add(random + "1");
+    clone.getElementsByClassName("sensors-text-2")[0].classList.add(random + "2");
+    clone.getElementsByClassName("sensors-text-3")[0].classList.add(random + "3");
+    sensorRow.values_string_id = random;
+    sensorRow.values_string_co = random + "1";
+    sensorRow.values_string_smoke = random + "2";
+    sensorRow.values_string_lpg = random + "3";
 
     function createGraph(graphName, sensorToAsk) {
     // Area Chart Example
       let ctx = document.getElementById(graphName);
-      let sensorRow = new SensorRow();
 
       let myLineChart = new Chart(ctx, {
         type: 'line',
