@@ -547,7 +547,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
           tooltips: {
             backgroundColor: "rgb(255,255,255)",
             bodyFontColor: "#858796",
-            titleMarginBottom: 10,
+            titleMarginBottom: 5,
             titleFontColor: '#6e707e',
             titleFontSize: 14,
             borderColor: '#dddfeb',
