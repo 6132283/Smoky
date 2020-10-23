@@ -176,7 +176,6 @@ Chart.defaults.global.defaultFontColor = '#858796';
 }
 
   function addData(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id, sensorRow) {
-
     if(id_new > sensorRow.id_lastread) {
     console.log("Id:" + id_new + " co:" + co_new + " smoke: " + smoke_new +" gas: "+ lpg_new +" data: "+ date_new+" sensor ID: "+sensor_id);
 
@@ -214,11 +213,11 @@ Chart.defaults.global.defaultFontColor = '#858796';
       document.getElementsByClassName(sensorRow.values_string_co)[0].innerHTML=res[0].co2 + " ppm";
       document.getElementsByClassName(sensorRow.values_string_smoke)[0].innerHTML=res[0].smoke + " ppm";
       document.getElementsByClassName(sensorRow.values_string_lpg)[0].innerHTML = res[0].gas + " ppm";
-
-  }
+    }
 
 });
 }
+
 
   function getAllCsv(){
 
@@ -415,6 +414,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 }
 
   function createNewSensorGraph(graphName, sensorNumber) {
+
     let node = document.getElementById("graph-row");
     let clone = node.cloneNode(true);
     clone.getElementsByClassName("chart-area")[0].innerHTML = "<canvas id = '" + graphName + "'></canvas>";
@@ -434,7 +434,13 @@ Chart.defaults.global.defaultFontColor = '#858796';
     let sensorRow = new SensorRow();
     clone.getElementsByClassName("sensors-text-1")[0].classList.add(random + "1");
     clone.getElementsByClassName("sensors-text-2")[0].classList.add(random + "2");
-    clone.getElementsByClassName("sensors-text-3")[0].classList.add(random + "3");
+    clone.getElementsByClassName("sensors-text-3")[0].classList.add(random + "3")
+    clone.getElementsByClassName("delete-button")[0].onclick=function () {
+        if (confirm("Sei sicuro di voler cancellare questo sensore e tutti i suoi relativi dati?")) {
+        delete_configuration(sensorNumber);
+        clone.innerHTML = "";
+        }
+    }
     sensorRow.values_string_id = random;
     sensorRow.values_string_co = random + "1";
     sensorRow.values_string_smoke = random + "2";
@@ -578,14 +584,23 @@ Chart.defaults.global.defaultFontColor = '#858796';
 }
 
 
-document.getElementById("newGraphButton").onclick = function(){
 
-  graphName = document.getElementById("graphname").value;
-  sensorNumber = document.getElementById("sensorid").value;
-  createNewSensorGraph(graphName,sensorNumber)
+document.addEventListener("DOMContentLoaded", function () {
 
-};
+    $.ajax({
+        method: 'GET',
+        url: 'http://smokysmokysmoky.com/get_all_sensors.php',
+        dataType: 'json',
 
+        success: (res) => {
+            for (var i = 0; i < res.length; i++) {
+                //res[i].sensorID, res[i].name, res[i].limitco2, res[i].limitsmoke, res[i].limitgas, res[i].email;
+                createNewSensorGraph(res[i].name, res[i].sensorID)
+            }
+
+        }
+    })
+})
 
 
 
@@ -605,3 +620,15 @@ $("#search-graph").keyup(function(event) {
 
 
 
+  function delete_configuration(sensorID){
+
+            $.ajax({
+                method: 'GET',
+                url: 'http://smokysmokysmoky.com/delete_sensor.php',
+                dataType: 'json',
+                data : {
+                        sensorID: sensorID,
+                }
+
+            });
+}

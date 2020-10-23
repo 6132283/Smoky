@@ -274,52 +274,55 @@
 
           <!-- Page Heading -->
           <h1 class="h3 mb-1 text-gray-800">Gestione sensori</h1>
-          <p class="mb-4">Aggiungi i sensori con il form qua sotto, oppure elimina le configurazioni già presenti.</p>
+          <p class="mb-4">Aggiungi i sensori con il form qua sotto oppure elimina le configurazioni già presenti.</p>
 
           <!-- Content Row -->
           <div class="row" id="form-row">
 
             <!-- First Column -->
-            <div class="col-lg-12">
+            <div class="col-lg-12" id="clone">
 
               <!-- Custom Text Color Utilities -->
               <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Aggiungi nuovo sensore</h6>
+                  <h6 class="m-0 font-weight-bold text-primary titolo">Aggiungi nuovo sensore</h6>
                 </div>
                 <div class="card-body">
-                 <form action="http://smokysmokysmoky.com/new_sensor.php" method="post" target="hide">
+                 <form action="http://smokysmokysmoky.com/new_sensor.php" method="post" target="hide" id="form">
                   <iframe style="display: none" name="hide" id="hide"></iframe>
-                  <div class="form-group">
+                  <div class="form-row">
+                  <div class="form-group col-md-6">
                     <label for="sensorID">ID Sensore</label>
-                    <input  type="number" class="form-control" name="sensorID" >
+                    <input  type="number" class="form-control form-control-sm" name="sensorID" >
                     <small  class="form-text text-muted">Inserisci l'ID di fabbrica del sensore</small>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                     <label for="name">Nome sensore</label>
-                    <input type="text" class="form-control" name="name" >
+                    <input type="text" class="form-control form-control-sm" name="name" >
                      <small  class="form-text text-muted">Scegli un nome per identificare il sensore</small>
                   </div>
-                  <div class="form-group">
+                  </div>
+                     <div class="form-row">
+                  <div class="form-group col-md-4">
                     <label for="co2">Livello allerta CO</label>
-                    <input type="number" class="form-control" name="co2">
-                    <small  class="form-text text-muted">Imposta il livello di CO (in ppm) oltre il quale verrai notificato via mail</small>
+                    <input type="number" class="form-control form-control-sm" name="co2" placeholder="inserire il livello in ppm">
                   </div>
-                  <div class="form-group">
+                  <div class="form- col-md-4">
                     <label for="smoke">Livello allerta Fumo</label>
-                    <input type="number" class="form-control" name="smoke">
-                    <small  class="form-text text-muted">Imposta il livello di Fumo (in ppm) oltre il quale verrai notificato via mail</small>
+                    <input type="number" class="form-control form-control-sm" name="smoke" placeholder="inserire il livello in ppm">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group col-md-4">
                     <label for="gas">Livello allerta Gas</label>
-                    <input type="number" class="form-control" name="gas">
-                    <small  class="form-text text-muted">Imposta il livello di GPL (in ppm) oltre il quale verrai notificato via mail</small>
+                    <input type="number" class="form-control form-control-sm" name="gas" placeholder="inserire il livello in ppm">
                   </div>
-                  <div class="form-group">
-                    <label for="email">Email da notificare</label>
-                    <input type="text" class="form-control" name="email">
-                    <small  class="form-text text-muted">Mail a cui verra' notificata l'allerta ogni qual volta vengono registrati valori oltre le soglie sopra impostate</small>
+                     </div>
+                    <div class="form-row">
+                   <div class="form-group col-md-12">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control form-control-sm" name="email">
+                    <small  class="form-text text-muted">superati i livelli di allerta verrai contatto tramite email</small>
                   </div>
+                    </div>
                   <button type="submit" class="btn btn-primary" id="aggiungiButton">Aggiungi</button>
                 </form>
                 </div>

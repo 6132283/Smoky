@@ -13,3 +13,7 @@
 .noHover{
     pointer-events: none;
 }
+
+input[type="number"]::placeholder {
+    text-align: left;
+}
