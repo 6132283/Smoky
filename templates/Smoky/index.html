@@ -18,6 +18,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
 
+    <link rel="icon" href="{%  static 'favicon.ico' %}" type="image/x-icon"/>
+<link rel="shortcut icon" href="{%  static 'favicon.ico' %}" type="image/x-icon"/>
+
 
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
@@ -184,7 +187,7 @@
                             </h6>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                               <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
+                                <img class="rounded-circle"  alt="">
                                 <div class="status-indicator bg-success"></div>
                               </div>
                               <div class="font-weight-bold">
@@ -194,7 +197,7 @@
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                               <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
+                                <img class="rounded-circle"  alt="">
                                 <div class="status-indicator"></div>
                               </div>
                               <div>
@@ -204,7 +207,7 @@
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                               <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
+                                <img class="rounded-circle" alt="">
                                 <div class="status-indicator bg-warning"></div>
                               </div>
                               <div>
@@ -214,7 +217,7 @@
                             </a>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                               <div class="dropdown-list-image mr-3">
-                                <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
+                                <img class="rounded-circle" alt="">
                                 <div class="status-indicator bg-success"></div>
                               </div>
                               <div>
@@ -232,7 +235,7 @@
                         <li class="nav-item dropdown no-arrow">
                           <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                            <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+
                           </a>
                           <!-- Dropdown - User Information -->
                           <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -304,16 +307,16 @@
                             <div class="card-body">
                                 <div class="chart-area graph-place-holder" style="height: 20rem;" ></div>
                                 <div class="d-flex justify-content-center">
-                                    <button class="btn btn-light noHover" type="button" style="margin:0.2rem">
+                                    <button class="btn btn-light noHover button-1" type="button" style="margin:0.2rem">
                                         CO:
                                         <span class="badge sensors-text-1 noHover"><i class="fa fa-spinner fa-spin"></i></span>
                                     </button>
-                                    <button class="btn btn-light noHover" type="button" style="margin:0.2rem">
+                                    <button class="btn btn-light noHover button-2" type="button" style="margin:0.2rem">
 
                                         fumo:
                                         <span class="badge sensors-text-2"><i class="fa fa-spinner fa-spin"></i></span>
                                     </button>
-                                    <button class="btn btn-light noHover" type="button" style="margin:0.2rem">
+                                    <button class="btn btn-light noHover button-3" type="button" style="margin:0.2rem">
                                         Gpl:
                                         <span class="badge sensors-text-3"><i class="fa fa-spinner fa-spin"></i></span>
                                     </button>
@@ -442,7 +445,6 @@
 
 <!-- Page level custom scripts -->
 <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-<script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
 
 </body>
 

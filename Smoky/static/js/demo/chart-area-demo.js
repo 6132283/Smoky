@@ -12,6 +12,12 @@ let newChart1 =[];
   this.values_string_co="";
   this.values_string_smoke="";
   this.values_string_lpg="";
+  this.limitco2 = -1;
+  this.limitsmoke = -1;
+  this.limitgas = -1;
+  this.limitco2button = "";
+  this.limitgasbutton = "";
+  this.limitsmokebutton = "";
 }
 
   function download(data, strFileName, strMimeType) {
@@ -215,6 +221,24 @@ let newChart1 =[];
       document.getElementsByClassName(sensorRow.values_string_co)[0].innerHTML=res[0].co2 + " ppm";
       document.getElementsByClassName(sensorRow.values_string_smoke)[0].innerHTML=res[0].smoke + " ppm";
       document.getElementsByClassName(sensorRow.values_string_lpg)[0].innerHTML = res[0].gas + " ppm";
+
+      let coButton = document.getElementsByClassName(sensorRow.limitco2button)[0];
+      let smokeButton = document.getElementsByClassName(sensorRow.limitsmokebutton)[0];
+      let gasButton = document.getElementsByClassName(sensorRow.limitgasbutton)[0];
+
+
+      if (res[0].co2>sensorRow.limitco2) {
+          coButton.style.background="red";
+          coButton.style.color="white";
+      };
+      if (res[0].smoke>sensorRow.limitsmoke) {
+          smokeButton.style.background="red";
+          smokeButton.style.color="white";
+      }
+      if (res[0].gas>sensorRow.limitgas) {
+          gasButton.style.background="red";
+          gasButton.style.color="white";
+      };
   }
 
 });
@@ -414,7 +438,7 @@ let newChart1 =[];
           chart.data.datasets[1].hidden = !chart.data.datasets[1].hidden;
 }
 
-  function createNewSensorGraph(graphName, sensorNumber) {
+  function createNewSensorGraph(graphName, sensorNumber, limitco2, limitsmoke, limitgas) {
     i++;
 
     graphName = graphName.toLowerCase();
@@ -437,6 +461,9 @@ let newChart1 =[];
     clone.getElementsByClassName("sensors-text-1")[0].classList.add(random + "1");
     clone.getElementsByClassName("sensors-text-2")[0].classList.add(random + "2");
     clone.getElementsByClassName("sensors-text-3")[0].classList.add(random + "3")
+    clone.getElementsByClassName("button-1")[0].classList.add(random + "a");
+    clone.getElementsByClassName("button-2")[0].classList.add(random + "b");
+    clone.getElementsByClassName("button-3")[0].classList.add(random + "c")
     clone.getElementsByClassName("delete-button")[0].onclick=function () {
         if (confirm("Sei sicuro di voler cancellare questo sensore e tutti i suoi relativi dati?")) {
         delete_configuration(sensorNumber);
@@ -447,16 +474,22 @@ let newChart1 =[];
     sensorRow.values_string_co = random + "1";
     sensorRow.values_string_smoke = random + "2";
     sensorRow.values_string_lpg = random + "3";
+    sensorRow.limitco2 = limitco2;
+    sensorRow.limitgas = limitgas;
+    sensorRow.limitsmoke = limitsmoke;
+    sensorRow.limitco2button = random + "a";
+    sensorRow.limitgasbutton = random + "b";
+    sensorRow.limitsmokebutton = random + "c";
 
         newChart1[i] = createGraph(graphName, sensorNumber, sensorRow); //dato un Id che do in input posso creare un grafico autoaggiornante
 
 
       return newChart1[i];
 
-}
+  }
 
 
-    function createGraph(graphName, sensorToAsk,sensorRow) {
+  function createGraph(graphName, sensorToAsk,sensorRow) {
     // Area Chart Example
       let ctx = document.getElementById(graphName);
 
@@ -603,10 +636,9 @@ let newChart1 =[];
         success: (res) => {
             for (var i = 0; i < res.length; i++) {
                 //res[i].sensorID, res[i].name, res[i].limitco2, res[i].limitsmoke, res[i].limitgas, res[i].email;
-                createNewSensorGraph(res[i].name, res[i].sensorID)
+                createNewSensorGraph(res[i].name, res[i].sensorID, res[i].limitco2, res[i].limitsmoke, res[i].limitgas);
             }
-        }
-    });
+        }});
 
 
 
