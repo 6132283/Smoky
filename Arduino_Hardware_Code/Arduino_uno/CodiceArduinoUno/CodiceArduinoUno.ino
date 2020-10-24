@@ -3,6 +3,7 @@ int redLed = 11;
 int yellowLed = 10;
 int greenLed = 9;
 int buzzer = 8;
+int DOPin =7;
 int ppmLPG = 0;
 int ppmCO = 0;
 int ppmSmoke = 0;
@@ -56,7 +57,8 @@ void setup() {
   pinMode(blueLed, OUTPUT);
   pinMode(redLed, OUTPUT);
   pinMode(greenLed, OUTPUT);
-  pinMode(buzzer, OUTPUT);               
+  pinMode(buzzer, OUTPUT);
+  pinMode(DOPin, INPUT);
   Ro = MQCalibration(MQ_PIN);                                          
 }
 
@@ -65,8 +67,9 @@ void loop() {
   rawLPG = MQGetGasPercentage(MQRead(MQ_PIN)/Ro,GAS_LPG);
   rawCO = MQGetGasPercentage(MQRead(MQ_PIN)/Ro,GAS_CO);
   rawSmoke = MQGetGasPercentage(MQRead(MQ_PIN)/Ro,GAS_SMOKE);
-  ppmLPG = abs(rawLPG) ;
-  ppmCO = abs(rawCO); 
+  if (digitalRead(DOPin) == HIGH)
+    ppmLPG = abs(rawLPG) ;
+  ppmCO = abs(rawCO);
   ppmSmoke = abs(rawSmoke); 
   Serial.print('\n');
   Serial.print('l' + String(ppmLPG));

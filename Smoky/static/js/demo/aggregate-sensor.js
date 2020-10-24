@@ -1,23 +1,23 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-Chart.defaults.global.defaultFontColor = '#858796';
 
 let i=0;
 let newChart1 =[];
 
+num_of_graph_points = 0;
+
   function SensorRow(values_string_id, values_string_co, values_string_smoke, valuest_string_lpg, limitco2, limitsmoke, limitgas, limitco2button, limitgasbutton, limitsmokebutton) {
-  this.num_of_graph_points = 0;
-  this.id_lastread = 0;
-  this.values_string_id = values_string_id;
-  this.values_string_co = values_string_co;
-  this.values_string_smoke = values_string_smoke;
-  this.values_string_lpg = valuest_string_lpg;
-  this.limitco2 = limitco2;
-  this.limitsmoke = limitsmoke;
-  this.limitgas = limitgas;
-  this.limitco2button = limitco2button;
-  this.limitgasbutton = limitgasbutton;
-  this.limitsmokebutton = limitsmokebutton;
+      this.num_of_graph_points = 0;
+      this.id_lastread = 0;
+      this.values_string_id = values_string_id;
+      this.values_string_co = values_string_co;
+      this.values_string_smoke = values_string_smoke;
+      this.values_string_lpg = valuest_string_lpg;
+      this.limitco2 = limitco2;
+      this.limitsmoke = limitsmoke;
+      this.limitgas = limitgas;
+      this.limitco2button = limitco2button;
+      this.limitgasbutton = limitgasbutton;
+      this.limitsmokebutton = limitsmokebutton;
 }
 
   function download(data, strFileName, strMimeType) {
@@ -191,22 +191,27 @@ let newChart1 =[];
         chart.data.datasets[2].data.push(co_new);
         chart.data.datasets[0].data.push(smoke_new);
         chart.data.datasets[1].data.push(lpg_new);
+            }
 
 
-              if (sensorRow.num_of_graph_points > 8){ //questo deve essere un attributo di classe, altrimenti i pallini del secondo grafico non vengono messi
-                  chart.data.labels.shift();
-                  chart.data.datasets.forEach((dataset) => {
-                  dataset.data.shift();})
-              }
+}
 
-              else
-                {sensorRow.num_of_graph_points++;}
+
+  function addData2(chart, id_new, co_new, smoke_new, lpg_new, date_new, sensor_id, sensorRow) {
+    if(id_new > sensorRow.id_lastread) {
+    console.log("Id:" + id_new + " co:" + co_new + " smoke: " + smoke_new +" gas: "+ lpg_new +" data: "+ date_new+" sensor ID: "+sensor_id);
+
+        chart.data.labels.push(date_new.slice(11,19));
+        chart.data.datasets[5].data.push(co_new);
+        chart.data.datasets[3].data.push(smoke_new);
+        chart.data.datasets[4].data.push(lpg_new);
 
   chart.update();
 }
 }
 
-  function askServer(chart, sensorIDToAsk, sensorRow){
+
+  async function askServer(chart, sensorIDToAsk, sensorRow){
     $.ajax({
     method: 'GET',
     url: 'http://smokysmokysmoky.com/sensor_getlastdata.php',
@@ -253,8 +258,65 @@ let newChart1 =[];
       };
   }
 
+
+
 });
 }
+
+
+  async function askServer2(chart, sensorIDToAsk, sensorRow){
+    $.ajax({
+    method: 'GET',
+    url: 'http://smokysmokysmoky.com/sensor_getlastdata.php',
+    dataType: 'json', //change the datatype to 'jsonp' works in most cases
+    data: {
+    sensorID: sensorIDToAsk,
+    },
+
+    success: (res) => {
+      addData2(chart, res[0].ID, res[0].co2, res[0].smoke, res[0].gas, res[0].date, res[0].sensorID, sensorRow);
+      sensorRow.id_lastread = res[0].ID;
+      document.getElementsByClassName(sensorRow.values_string_co)[0].innerHTML=res[0].co2 + " ppm";
+      document.getElementsByClassName(sensorRow.values_string_smoke)[0].innerHTML=res[0].smoke + " ppm";
+      document.getElementsByClassName(sensorRow.values_string_lpg)[0].innerHTML = res[0].gas + " ppm";
+
+      let coButton = document.getElementsByClassName(sensorRow.limitco2button)[0];
+      let smokeButton = document.getElementsByClassName(sensorRow.limitsmokebutton)[0];
+      let gasButton = document.getElementsByClassName(sensorRow.limitgasbutton)[0];
+
+
+      if (res[0].co2>sensorRow.limitco2) {
+          coButton.style.background="red";
+          coButton.style.color="white";
+      }
+      else {
+          coButton.style.background="#f8f9fc";
+          coButton.style.color="#3a3b45";
+          }
+      if (res[0].smoke>sensorRow.limitsmoke) {
+          smokeButton.style.background="red";
+          smokeButton.style.color="white";
+      }
+      else{
+          smokeButton.style.background="#f8f9fc";
+          smokeButton.style.color="#3a3b45";
+      }
+      if (res[0].gas>sensorRow.limitgas) {
+          gasButton.style.background="red";
+          gasButton.style.color="white";
+      }
+      else {
+          gasButton.style.background="#f8f9fc";
+          gasButton.style.color="#3a3b45";
+      };
+  }
+
+
+
+});
+}
+
+
 
   function getAllCsv(){
 
@@ -468,10 +530,10 @@ let newChart1 =[];
     coButtonid = graphName + "coButton" + random;
     smokeButtonid = graphName + "smokeButton" + random;
     gplButtonid = graphName + "gplButton" + random;
-    coButton = "<div class='custom-control custom-switch' style='display:inline-block; margin:1rem;'><input type='checkbox' class='custom-control-input yellowinput' id='"+ coButtonid +"'  onclick='switchOnOffDatasetCO(newChart1["+i+"]);'+' checked><label class='yellowtoggle custom-control-label' for='"+coButtonid+"'>CO</label></div>";
-    smokeButton = "<div class='custom-control custom-switch' style='display:inline-block;'><input type='checkbox' class='custom-control-input redinput' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1["+i+"]);'+' checked><label class='redtoggle custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
-    gplButton = "<div class='custom-control custom-switch' style='display:inline-block; margin-left:1rem;'><input type='checkbox' class='custom-control-input bluinput' id='"+ gplButtonid +"'  onclick='switchOnOffDatasetLpg(newChart1["+i+"]);'+' checked><label class='blutoggle custom-control-label' for='" + gplButtonid + "'>Gpl</label></div>";
-    clone.getElementsByClassName("bottoniera1")[0].innerHTML = coButton + smokeButton + gplButton;
+    coButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input yellowinput' id='"+ coButtonid +"'  onclick='switchOnOffDatasetCO(newChart1["+i+"]);'+' checked><label class='yellowtoggle custom-control-label' for='"+coButtonid+"'>CO</label></div>";
+    smokeButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input redinput' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1["+i+"]);'+' checked><label class='redtoggle custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
+    gplButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input bluinput' id='"+ gplButtonid +"'  onclick='switchOnOffDatasetLpg(newChart1["+i+"]);'+' checked><label class='blutoggle custom-control-label' for='" + gplButtonid + "'>Gpl</label></div>";
+    clone.getElementsByClassName("bottoniera")[0].innerHTML = coButton + smokeButton + gplButton;
     clone.getElementsByClassName("chart-area")[0].classList.add(graphName);
 
     clone.getElementsByClassName("sensors-text-1")[0].classList.add(random + "1");
@@ -488,17 +550,16 @@ let newChart1 =[];
     }
 
     let sensorRow = new SensorRow(random, random+"1", random+"2", random+"3",limitco2,limitsmoke,limitgas,random+"a",random+"b",random+"c");
+    let sensorRow1 = new SensorRow("1","2","3","4",0,0,0,"5","6","7");
 
-
-        newChart1[i] = createGraph(graphName, sensorNumber, sensorRow); //dato un Id che do in input posso creare un grafico autoaggiornante
+        newChart1[i] = createGraph(graphName, sensorNumber, sensorRow, sensorRow1); //dato un Id che do in input posso creare un grafico autoaggiornante
 
 
       return newChart1[i];
 
   }
 
-
-  function createGraph(graphName, sensorToAsk,sensorRow) {
+  function createGraph(graphName, sensorToAsk,sensorRow1,sensorRow2) {
     // Area Chart Example
       let ctx = document.getElementById(graphName);
 
@@ -507,7 +568,7 @@ let newChart1 =[];
         data: {
           labels: [],
           datasets: [{
-            label: "Smoke",
+            label: "Smoke1",
             lineTension: 0.3,
             backgroundColor: "rgba(255, 24, 25, 0.05)",
             borderColor: "rgba(255, 24, 25, 1)",
@@ -519,10 +580,10 @@ let newChart1 =[];
             pointHoverBorderColor: "rgba(255, 24, 25, 1)",
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: [],
+            data: [0,0,0],
           },
             {
-              label: "Gpl",
+              label: "Gpl1",
               lineTension: 0.3,
               backgroundColor: "rgba(100, 115, 223, 0.05)",
               borderColor: "rgba(100, 115, 223, 1)",
@@ -534,10 +595,10 @@ let newChart1 =[];
               pointHoverBorderColor: "rgba(78, 115, 223, 1)",
               pointHitRadius: 10,
               pointBorderWidth: 2,
-              data: [],
+              data: [0,0,0],
             },
             {
-              label: "CO",
+              label: "CO1",
               lineTension: 0.3,
               backgroundColor: "rgba(255, 165, 0, 0.05)",
               borderColor: "rgba(255, 165, 0, 1)",
@@ -549,7 +610,52 @@ let newChart1 =[];
               pointHoverBorderColor: "rgba(255, 165, 0, 1)",
               pointHitRadius: 10,
               pointBorderWidth: 2,
-              data: [],
+              data: [0,0,0],
+            },
+          {
+            label: "Smoke2",
+            lineTension: 0.3,
+            backgroundColor: "rgba(0, 0, 0, 0.05)",
+            borderColor: "rgba(0, 0, 0, 1)",
+            pointRadius: 3,
+            pointBackgroundColor: "rgba(0, 0, 0, 1)",
+            pointBorderColor: "rgba(0, 0, 0, 1)",
+            pointHoverRadius: 3,
+            pointHoverBackgroundColor: "rgba(0, 0, 0, 1)",
+            pointHoverBorderColor: "rgba(0, 0, 0, 1)",
+            pointHitRadius: 10,
+            pointBorderWidth: 2,
+            data: [0,0,0],
+          },
+            {
+              label: "Gpl2",
+              lineTension: 0.3,
+              backgroundColor: "rgba(100, 115, 223, 0.05)",
+              borderColor: "rgba(100, 115, 223, 1)",
+              pointRadius: 2,
+              pointBackgroundColor: "rgba(78, 115, 223, 1)",
+              pointBorderColor: "rgba(78, 115, 223, 1)",
+              pointHoverRadius: 3,
+              pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+              pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+              pointHitRadius: 10,
+              pointBorderWidth: 2,
+              data: [0, 0, 0],
+            },
+            {
+              label: "CO2",
+              lineTension: 0.3,
+              backgroundColor: "rgba(255, 165, 0, 0.05)",
+              borderColor: "rgba(255, 165, 0, 1)",
+              pointRadius: 2,
+              pointBackgroundColor: "rgba(255, 165, 0, 1)",
+              pointBorderColor: "rgba(255, 165, 0, 1)",
+              pointHoverRadius: 3,
+              pointHoverBackgroundColor: "rgba(255, 165, 0, 1)",
+              pointHoverBorderColor: "rgba(255, 165, 0, 1)",
+              pointHitRadius: 10,
+              pointBorderWidth: 2,
+              data: [0,0,0],
             }],
         },
         options: {
@@ -627,7 +733,9 @@ let newChart1 =[];
       });
 
         setInterval(async function () {
-        askServer(myLineChart,sensorToAsk,sensorRow);
+            askServer2(myLineChart,sensorToAsk, sensorRow1);
+            askServer(myLineChart,1,sensorRow2);
+
         }, 2000);
 
         return myLineChart;
@@ -637,7 +745,7 @@ let newChart1 =[];
 
 
 
-    $.ajax({
+/*    $.ajax({
         method: 'GET',
         url: 'http://smokysmokysmoky.com/get_all_sensors.php',
         dataType: 'json',
@@ -646,7 +754,7 @@ let newChart1 =[];
             for (let i = 0; i < res.length; i++) {
                 createNewSensorGraph(res[i].name, res[i].sensorID, res[i].limitco2, res[i].limitsmoke, res[i].limitgas);
             }
-        }});
+        }});*/
 
 
 
@@ -680,3 +788,5 @@ $("#search-graph").keyup(function(event) {
             });
 }
 
+
+createNewSensorGraph("Visione aggregata",1,0,0,0);

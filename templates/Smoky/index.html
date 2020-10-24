@@ -19,7 +19,7 @@
           rel="stylesheet">
 
     <link rel="icon" href="{%  static 'favicon.ico' %}" type="image/x-icon"/>
-<link rel="shortcut icon" href="{%  static 'favicon.ico' %}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{%  static 'favicon.ico' %}" type="image/x-icon"/>
 
 
     <!-- Custom styles for this template-->
@@ -63,6 +63,7 @@
         </li>
 
 
+
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
 
@@ -82,7 +83,7 @@
         <div id="content">
 
             <!-- Topbar -->
-            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="height: 4.375rem">
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="height: 3rem">
 
                       <!-- Sidebar Toggle (Topbar) -->
                       <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -284,7 +285,7 @@
                 <div class="row" id="graph-row" style="display:none">
 
                     <!-- Area Chart -->
-                    <div class="col-xl-9 col-lg-7">
+                    <div class="col-xl-12 col-lg-12">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -320,66 +321,13 @@
                                         <span class="badge sensors-text-3"><i class="fa fa-spinner fa-spin"></i></span>
                                     </button>
                                 </div>
+
                             </div>
-
                         </div>
-                    </div>
-
-                    <!-- Pie Chart -->
-                    <div class="col-xl-3 col-lg-5">
                         <div class="card shadow mb-4">
-                            <!-- Card Header - Dropdown -->
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Visualizzazione</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                         aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header">Dropdown Header:</div>
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Card Body -->
-                            <div class="card-body">
-                                <div class="chart-pie pt-4 pb-2" style="display:none">
-                                    <div class="chartjs-size-monitor">
-                                        <div class="chartjs-size-monitor-expand">
-                                            <div class="">
-                                            </div>
-                                        </div>
-                                        <div class="chartjs-size-monitor-shrink">
-                                            <div class="">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <canvas id="myPieChart" width="409" height="367" class="chartjs-render-monitor" style="display: block; height: 245px; width: 273px;"></canvas>
-                                </div>
-                                <!-- Material switch -->
-                                <div class="bottoniera">
-                                    <div class="custom-control custom-switch" >
-                                      <input type="checkbox" class="custom-control-input bottone1" id="customSwitches1" checked>
-                                      <label class="custom-control-label" for="customSwitches1">CO</label>
-                                    </div>
-                                    <div class="custom-control custom-switch">
-                                      <input type="checkbox" class="custom-control-input bottone2" id="customSwitches2" onclick="switchOnOffDataset(newChart,'smoke')" checked>
-                                      <label class="custom-control-label" for="customSwitches2">Fumo</label>
-                                    </div>
-                                    <div class="custom-control custom-switch">
-                                      <input type="checkbox" class="custom-control-input bottone3" id="customSwitches3" onclick="switchOnOffDataset(newChart,'lpg')" checked>
-                                      <label class="custom-control-label" for="customSwitches3">Gpl</label>
-                                    </div>
-                                </div>
-                            </div>
+                                                        <div class="bottoniera1 " style="text-align:center"></div>
                         </div>
                     </div>
-
                 </div>
 
 

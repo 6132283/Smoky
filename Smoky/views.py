@@ -35,4 +35,3 @@ def settings(request):
         request,
         'otherpages/settings.html',
     )
-
