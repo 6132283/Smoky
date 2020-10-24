@@ -5,19 +5,19 @@ Chart.defaults.global.defaultFontColor = '#858796';
 let i=0;
 let newChart1 =[];
 
-  function SensorRow() {
+  function SensorRow(values_string_id, values_string_co, values_string_smoke, valuest_string_lpg, limitco2, limitsmoke, limitgas, limitco2button, limitgasbutton, limitsmokebutton) {
   this.num_of_graph_points = 0;
   this.id_lastread = 0;
-  this.values_string_id="";
-  this.values_string_co="";
-  this.values_string_smoke="";
-  this.values_string_lpg="";
-  this.limitco2 = -1;
-  this.limitsmoke = -1;
-  this.limitgas = -1;
-  this.limitco2button = "";
-  this.limitgasbutton = "";
-  this.limitsmokebutton = "";
+  this.values_string_id = values_string_id;
+  this.values_string_co = values_string_co;
+  this.values_string_smoke = values_string_smoke;
+  this.values_string_lpg = valuest_string_lpg;
+  this.limitco2 = limitco2;
+  this.limitsmoke = limitsmoke;
+  this.limitgas = limitgas;
+  this.limitco2button = limitco2button;
+  this.limitgasbutton = limitgasbutton;
+  this.limitsmokebutton = limitsmokebutton;
 }
 
   function download(data, strFileName, strMimeType) {
@@ -464,12 +464,12 @@ let newChart1 =[];
     coButtonid = graphName + "coButton" + random;
     smokeButtonid = graphName + "smokeButton" + random;
     gplButtonid = graphName + "gplButton" + random;
-    coButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ coButtonid +"'  onclick='switchOnOffDatasetCO(newChart1["+i+"]);'+' checked><label class='custom-control-label' for='"+coButtonid+"'>CO</label></div>";
-    smokeButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1["+i+"]);'+' checked><label class='custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
-    gplButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ gplButtonid +"'  onclick='switchOnOffDatasetLpg(newChart1["+i+"]);'+' checked><label class='custom-control-label' for='" + gplButtonid + "'>Gpl</label></div>";
+    coButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input yellowinput' id='"+ coButtonid +"'  onclick='switchOnOffDatasetCO(newChart1["+i+"]);'+' checked><label class='yellowtoggle custom-control-label' for='"+coButtonid+"'>CO</label></div>";
+    smokeButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input redinput' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1["+i+"]);'+' checked><label class='redtoggle custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
+    gplButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input bluinput' id='"+ gplButtonid +"'  onclick='switchOnOffDatasetLpg(newChart1["+i+"]);'+' checked><label class='blutoggle custom-control-label' for='" + gplButtonid + "'>Gpl</label></div>";
     clone.getElementsByClassName("bottoniera")[0].innerHTML = coButton + smokeButton + gplButton;
     clone.getElementsByClassName("chart-area")[0].classList.add(graphName);
-    let sensorRow = new SensorRow();
+
     clone.getElementsByClassName("sensors-text-1")[0].classList.add(random + "1");
     clone.getElementsByClassName("sensors-text-2")[0].classList.add(random + "2");
     clone.getElementsByClassName("sensors-text-3")[0].classList.add(random + "3")
@@ -482,16 +482,9 @@ let newChart1 =[];
         clone.innerHTML = "";
         }
     }
-    sensorRow.values_string_id = random;
-    sensorRow.values_string_co = random + "1";
-    sensorRow.values_string_smoke = random + "2";
-    sensorRow.values_string_lpg = random + "3";
-    sensorRow.limitco2 = limitco2;
-    sensorRow.limitgas = limitgas;
-    sensorRow.limitsmoke = limitsmoke;
-    sensorRow.limitco2button = random + "a";
-    sensorRow.limitgasbutton = random + "b";
-    sensorRow.limitsmokebutton = random + "c";
+
+    let sensorRow = new SensorRow(random, random+"1", random+"2", random+"3",limitco2,limitsmoke,limitgas,random+"a",random+"b",random+"c");
+
 
         newChart1[i] = createGraph(graphName, sensorNumber, sensorRow); //dato un Id che do in input posso creare un grafico autoaggiornante
 
@@ -646,8 +639,7 @@ let newChart1 =[];
         dataType: 'json',
 
         success: (res) => {
-            for (var i = 0; i < res.length; i++) {
-                //res[i].sensorID, res[i].name, res[i].limitco2, res[i].limitsmoke, res[i].limitgas, res[i].email;
+            for (let i = 0; i < res.length; i++) {
                 createNewSensorGraph(res[i].name, res[i].sensorID, res[i].limitco2, res[i].limitsmoke, res[i].limitgas);
             }
         }});
@@ -683,3 +675,4 @@ $("#search-graph").keyup(function(event) {
 
             });
 }
+

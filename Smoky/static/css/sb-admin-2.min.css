@@ -17,3 +17,21 @@
 input[type="number"]::placeholder {
     text-align: left;
 }
+
+.yellowinput:checked~.yellowtoggle::before{
+        color: #fff;
+    border-color: #FFA500;
+    background-color: #FFA500;
+}
+
+.redinput:checked~.redtoggle::before{
+        color: #fff;
+    border-color: #FF1819;
+    background-color: #FF1819;
+}
+
+.blueinput:checked~.bluetoggle::before{
+        color: #fff;
+    border-color: #4E73DF;
+    background-color: #4E73DF;
+}
