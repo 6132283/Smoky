@@ -230,14 +230,26 @@ let newChart1 =[];
       if (res[0].co2>sensorRow.limitco2) {
           coButton.style.background="red";
           coButton.style.color="white";
-      };
+      }
+      else {
+          coButton.style.background="#f8f9fc";
+          coButton.style.color="#3a3b45";
+          }
       if (res[0].smoke>sensorRow.limitsmoke) {
           smokeButton.style.background="red";
           smokeButton.style.color="white";
       }
+      else{
+          smokeButton.style.background="#f8f9fc";
+          smokeButton.style.color="#3a3b45";
+      }
       if (res[0].gas>sensorRow.limitgas) {
           gasButton.style.background="red";
           gasButton.style.color="white";
+      }
+      else {
+          gasButton.style.background="#f8f9fc";
+          gasButton.style.color="#3a3b45";
       };
   }
 
