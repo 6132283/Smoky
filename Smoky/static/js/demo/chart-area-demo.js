@@ -2,6 +2,8 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
+let i=0;
+let newChart1 =[];
 
   function SensorRow() {
   this.num_of_graph_points = 0;
@@ -413,6 +415,8 @@ Chart.defaults.global.defaultFontColor = '#858796';
 }
 
   function createNewSensorGraph(graphName, sensorNumber) {
+    i++;
+
     graphName = graphName.toLowerCase();
     let node = document.getElementById("graph-row");
     let clone = node.cloneNode(true);
@@ -420,14 +424,13 @@ Chart.defaults.global.defaultFontColor = '#858796';
     clone.style["display"] = "flex";
     clone.getElementsByClassName("graph-title")[0].innerHTML = graphName;
     document.getElementById("graph-body").appendChild(clone);
-    newChart1 = createGraph(graphName, sensorNumber); //dato un Id che do in input posso creare un grafico autoaggiornante
     let random = Math.random().toString(36).substring(7);
     coButtonid = graphName + "coButton" + random;
     smokeButtonid = graphName + "smokeButton" + random;
     gplButtonid = graphName + "gplButton" + random;
-    coButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ coButtonid +"'  onclick='switchOnOffDatasetCO(newChart1);'+' checked><label class='custom-control-label' for='"+coButtonid+"'>CO</label></div>";
-    smokeButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1);'+' checked><label class='custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
-    gplButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ gplButtonid +"'  onclick='switchOnOffDatasetLpg(newChart1);'+' checked><label class='custom-control-label' for='" + gplButtonid + "'>Gpl</label></div>";
+    coButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ coButtonid +"'  onclick='switchOnOffDatasetCO(newChart1["+i+"]);'+' checked><label class='custom-control-label' for='"+coButtonid+"'>CO</label></div>";
+    smokeButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ smokeButtonid +"'  onclick='switchOnOffDatasetSmoke(newChart1["+i+"]);'+' checked><label class='custom-control-label' for='" + smokeButtonid + "'>Fumo</label></div>";
+    gplButton = "<div class='custom-control custom-switch'><input type='checkbox' class='custom-control-input' id='"+ gplButtonid +"'  onclick='switchOnOffDatasetLpg(newChart1["+i+"]);'+' checked><label class='custom-control-label' for='" + gplButtonid + "'>Gpl</label></div>";
     clone.getElementsByClassName("bottoniera")[0].innerHTML = coButton + smokeButton + gplButton;
     clone.getElementsByClassName("chart-area")[0].classList.add(graphName);
     let sensorRow = new SensorRow();
@@ -445,7 +448,15 @@ Chart.defaults.global.defaultFontColor = '#858796';
     sensorRow.values_string_smoke = random + "2";
     sensorRow.values_string_lpg = random + "3";
 
-    function createGraph(graphName, sensorToAsk) {
+        newChart1[i] = createGraph(graphName, sensorNumber, sensorRow); //dato un Id che do in input posso creare un grafico autoaggiornante
+
+
+      return newChart1[i];
+
+}
+
+
+    function createGraph(graphName, sensorToAsk,sensorRow) {
     // Area Chart Example
       let ctx = document.getElementById(graphName);
 
@@ -580,11 +591,9 @@ Chart.defaults.global.defaultFontColor = '#858796';
         return myLineChart;
     }
 
-}
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
 
     $.ajax({
         method: 'GET',
@@ -596,10 +605,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 //res[i].sensorID, res[i].name, res[i].limitco2, res[i].limitsmoke, res[i].limitgas, res[i].email;
                 createNewSensorGraph(res[i].name, res[i].sensorID)
             }
-
         }
-    })
-})
+    });
 
 
 
