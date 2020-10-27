@@ -678,5 +678,6 @@ $("#search-graph").keyup(function(event) {
                 }
 
             });
+            location.reload();
 }
 
