@@ -45,7 +45,7 @@ void SendingToDB()
     Serial.println("connection with server failed");
     return;
   }
-  client.print("GET /insert.php?co2=");
+  client.print("GET /insert_warning.php?co2=");
   client.print(co);
   client.print("&smoke=");
   client.print(smoke);
