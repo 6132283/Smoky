@@ -487,7 +487,7 @@ let newChart1 =[];
         }
     }
 
-    let sensorRow = new SensorRow(random, random+"1", random+"2", random+"3",limitco2,limitsmoke,limitgas,random+"a",random+"b",random+"c");
+    let sensorRow = new SensorRow(random, random+"1", random+"2", random+"3",limitco2,limitsmoke,limitgas,random+"a",random+"c",random+"b");
 
 
         newChart1[i] = createGraph(graphName, sensorNumber, sensorRow); //dato un Id che do in input posso creare un grafico autoaggiornante
