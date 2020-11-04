@@ -16,6 +16,19 @@ int ppmSmokeLimit = 10;
 String message = "";
 bool messageReady = false;
 
+
+/*******************Demo for MQ-2 Gas Sensor Module V1.0*****************************
+Support:  Tiequan Shao: support[at]sandboxelectronics.com
+
+Lisence: Attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0)
+
+Note:    This piece of source code is supposed to be used as a demostration ONLY. More
+         sophisticated calibration is required for industrial field application.
+
+                                                    Sandbox Electronics    2011-04-25
+************************************************************************************/
+
+
 /************************Hardware Related Macros************************************/
 #define         MQ_PIN                       (0)     //define which analog input channel you are going to use
 #define         RL_VALUE                     (5)     //define the load resistance on the board, in kilo ohms
